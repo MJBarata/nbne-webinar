@@ -1,0 +1,76 @@
+---
+import { getCollection } from 'astro:content';
+import event from '../data/event.json';
+
+const agenda = await getCollection('agenda');
+---
+
+<section class="section agenda" id="agenda">
+  <div class="shell">
+    <p class="eyebrow">Run of day</p>
+    <h2>{event.dateLabel}</h2>
+
+    <ol class="agenda__list">
+      {
+        agenda.map((item) => (
+          <li class="agenda__item">
+            <span class="agenda__time">{item.data.time}</span>
+            <div class="agenda__detail">
+              <h3 class="agenda__title">{item.data.title}</h3>
+              <p class="agenda__description">{item.data.description}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .agenda {
+    background: var(--paper-alt);
+  }
+
+  .agenda__list {
+    list-style: none;
+    margin: clamp(32px, 5vw, 56px) 0 0;
+    padding: 0;
+    max-width: 780px;
+  }
+
+  .agenda__item {
+    display: grid;
+    grid-template-columns: 76px 1fr;
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+  }
+
+  .agenda__item:last-child {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  }
+
+  .agenda__time {
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--blue);
+    padding-top: 0.2rem;
+  }
+
+  .agenda__title {
+    font-size: 1.2rem;
+  }
+
+  .agenda__description {
+    margin-top: 0.4rem;
+    color: var(--muted-on-light);
+  }
+
+  @media (max-width: 560px) {
+    .agenda__item {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+  }
+</style>

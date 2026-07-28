@@ -1,0 +1,163 @@
+---
+import event from '../data/event.json';
+---
+
+<section class="hero">
+  <div class="hero__glow" aria-hidden="true"></div>
+  <div class="shell hero__inner">
+    <p class="eyebrow">{event.eyebrow}</p>
+    <h1 class="hero__title">{event.title}</h1>
+    <p class="hero__tagline">{event.tagline}</p>
+
+    <dl class="hero__facts">
+      <div>
+        <dt>Date</dt>
+        <dd>{event.dateLabel}</dd>
+      </div>
+      <div>
+        <dt>Time</dt>
+        <dd>{event.timeLabel}</dd>
+      </div>
+      <div>
+        <dt>Where</dt>
+        <dd>{event.format}</dd>
+      </div>
+    </dl>
+
+    <div class="hero__actions">
+      <a class="btn btn--primary hero__cta" href="#register">{event.registerLabel}</a>
+      <a class="btn btn--ghost" href="#agenda">See the agenda</a>
+    </div>
+
+    <div class="hero__countdown" data-countdown={event.date} hidden>
+      <span data-countdown-value></span> until we go live
+    </div>
+
+    <img
+      class="hero__partner"
+      src="/img/europe-triathlon.webp"
+      alt="Europe Triathlon"
+      width="150"
+    />
+  </div>
+</section>
+
+<script>
+  const el = document.querySelector('[data-countdown]');
+  const out = document.querySelector('[data-countdown-value]');
+
+  if (el instanceof HTMLElement && out) {
+    const target = new Date(el.dataset.countdown ?? '').getTime();
+
+    const render = () => {
+      const diff = target - Date.now();
+      if (Number.isNaN(target) || diff <= 0) {
+        el.hidden = true;
+        return;
+      }
+      const days = Math.floor(diff / 86400000);
+      const hours = Math.floor((diff % 86400000) / 3600000);
+      out.textContent = days > 0 ? `${days} days, ${hours} hours` : `${hours} hours`;
+      el.hidden = false;
+    };
+
+    render();
+    setInterval(render, 60000);
+  }
+</script>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    background: var(--blue-deep);
+    color: var(--white);
+    padding-block: clamp(72px, 10vw, 132px);
+  }
+
+  .hero__glow {
+    position: absolute;
+    inset: -30% -10% auto -10%;
+    height: 120%;
+    background:
+      radial-gradient(45% 55% at 18% 12%, var(--cyan) 0%, transparent 62%),
+      radial-gradient(50% 60% at 78% 30%, var(--blue) 0%, transparent 68%),
+      radial-gradient(60% 70% at 50% 90%, var(--navy-glow) 0%, transparent 70%);
+    opacity: 0.85;
+    pointer-events: none;
+  }
+
+  .hero__inner {
+    position: relative;
+  }
+
+  .hero__title {
+    max-width: 15ch;
+    margin-bottom: 0.75rem;
+  }
+
+  .hero__tagline {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2.6vw, 2rem);
+    margin-bottom: 2.5rem;
+  }
+
+  .hero__facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2.5rem;
+    margin: 0 0 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.22);
+  }
+
+  .hero__facts dt {
+    font-family: var(--font-ui);
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted-on-dark);
+    margin-bottom: 0.35rem;
+  }
+
+  .hero__facts dd {
+    margin: 0;
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 1.05rem;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .hero__cta {
+    background: var(--white);
+    color: var(--blue-deep);
+  }
+
+  .hero__cta:hover {
+    background: var(--cyan-soft);
+    color: var(--blue-deep);
+  }
+
+  .hero__countdown {
+    margin-top: 1.5rem;
+    font-family: var(--font-ui);
+    font-size: 0.95rem;
+    color: var(--muted-on-dark);
+  }
+
+  .hero__countdown span {
+    color: var(--white);
+    font-weight: 600;
+  }
+
+  .hero__partner {
+    margin-top: 3.5rem;
+    width: 140px;
+    height: auto;
+  }
+</style>

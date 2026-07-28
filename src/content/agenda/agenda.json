@@ -1,0 +1,34 @@
+{
+  "items": [
+    {
+      "time": "12:00",
+      "title": "Welcome & intro",
+      "description": "The host opens the session, shares the Miro board and how to take part."
+    },
+    {
+      "time": "12:05",
+      "title": "Speaker 1 — the story",
+      "description": "A story of change in the sport, and what it took."
+    },
+    {
+      "time": "12:20",
+      "title": "Speaker 2 — the how",
+      "description": "How a real programme got built inside a federation."
+    },
+    {
+      "time": "12:35",
+      "title": "Speaker 3 — from the ground up",
+      "description": "A developing federation's path, and what made it possible."
+    },
+    {
+      "time": "12:50",
+      "title": "Q&A",
+      "description": "Your questions to the speakers."
+    },
+    {
+      "time": "12:58",
+      "title": "Close",
+      "description": "Thank yous, the Miro board, and an invite to the 21 October roundtable."
+    }
+  ]
+}

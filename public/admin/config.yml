@@ -1,0 +1,101 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Lets you run the CMS locally with `npm run cms` + `npm run dev`,
+# editing files on disk without logging in.
+local_backend: true
+
+media_folder: public/uploads
+public_folder: /uploads
+
+collections:
+  - name: event
+    label: The event
+    files:
+      - name: details
+        label: Event details
+        file: src/data/event.json
+        fields:
+          - { name: eyebrow, label: Eyebrow, widget: string }
+          - { name: title, label: Title, widget: string }
+          - { name: tagline, label: Tagline, widget: string }
+          - { name: date, label: Date and time (for the countdown), widget: datetime }
+          - { name: dateLabel, label: Date shown on the page, widget: string }
+          - { name: timeLabel, label: Time shown on the page, widget: string }
+          - { name: format, label: Format, widget: string }
+          - { name: intro, label: Intro, widget: text }
+          - { name: registerUrl, label: Google Form link, widget: string }
+          - { name: registerEmbedUrl, label: Google Form embed link, widget: string, hint: "Same form, with ?embedded=true at the end" }
+          - { name: registerLabel, label: Button label, widget: string }
+          - { name: showRegisterEmbed, label: Show the form on the page, widget: boolean }
+
+      - name: about
+        label: About section
+        file: src/data/about.json
+        fields:
+          - { name: heading, label: Heading, widget: string }
+          - { name: body, label: Body, widget: text }
+          - { name: quoteHeading, label: Quote heading, widget: string }
+          - { name: quoteSource, label: Quote source, widget: string }
+          - { name: quoteBody, label: Quote body, widget: text }
+
+      - name: roundtable
+        label: Roundtable section
+        file: src/data/roundtable.json
+        fields:
+          - { name: eyebrow, label: Eyebrow, widget: string }
+          - { name: title, label: Title, widget: string }
+          - { name: dateLabel, label: Date, widget: string }
+          - { name: body, label: Body, widget: text }
+          - { name: note, label: Note, widget: string }
+
+  - name: speakers
+    label: Speakers
+    folder: src/content/speakers
+    create: true
+    slug: "{{slug}}"
+    summary: "{{order}} — {{name}}"
+    sortable_fields: [order, name]
+    fields:
+      - { name: name, label: Name, widget: string }
+      - { name: role, label: Role, widget: string }
+      - { name: organisation, label: Federation / organisation, widget: string }
+      - { name: photo, label: Headshot, widget: image, required: false }
+      - { name: talkTitle, label: Talk title, widget: string }
+      - { name: order, label: Order on the page, widget: number, value_type: int, min: 1 }
+      - { name: published, label: Show on the site, widget: boolean, default: true }
+      - { name: body, label: Bio, widget: markdown }
+
+  - name: agenda
+    label: Agenda
+    files:
+      - name: items
+        label: Run of day
+        file: src/content/agenda/agenda.json
+        fields:
+          - name: items
+            label: Items
+            widget: list
+            label_singular: item
+            summary: "{{time}} — {{title}}"
+            fields:
+              - { name: time, label: Time, widget: string }
+              - { name: title, label: Title, widget: string }
+              - { name: description, label: Description, widget: text }
+
+  - name: faq
+    label: FAQ
+    files:
+      - name: items
+        label: Questions
+        file: src/content/faq/faq.json
+        fields:
+          - name: items
+            label: Questions
+            widget: list
+            label_singular: question
+            summary: "{{question}}"
+            fields:
+              - { name: question, label: Question, widget: string }
+              - { name: answer, label: Answer, widget: text }

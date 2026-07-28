@@ -1,0 +1,74 @@
+---
+import about from '../data/about.json';
+
+const bodyParagraphs = about.body.split('\n\n');
+---
+
+<section class="section about" id="about">
+  <div class="shell">
+    <div class="about__block">
+      <h2>{about.heading}</h2>
+      <div class="about__body">
+        {bodyParagraphs.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+    </div>
+
+    <div class="about__quote">
+      <h3 class="about__quote-heading">{about.quoteHeading}</h3>
+      <p class="about__quote-source">{about.quoteSource}</p>
+      <p class="about__quote-body">{about.quoteBody}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    background: var(--paper);
+  }
+
+  .about__block {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1fr;
+    margin-bottom: clamp(48px, 7vw, 96px);
+  }
+
+  .about__block h2 {
+    max-width: 14ch;
+  }
+
+  .about__body {
+    max-width: 52ch;
+    font-size: 1.1rem;
+  }
+
+  .about__quote {
+    max-width: 62ch;
+    padding: clamp(24px, 4vw, 40px);
+    background: var(--white);
+    border-radius: var(--radius-lg);
+  }
+
+  .about__quote-heading {
+    font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+  }
+
+  .about__quote-source {
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
+    color: var(--muted-on-light);
+    margin-top: 0.5rem;
+  }
+
+  .about__quote-body {
+    font-size: 1.05rem;
+  }
+
+  @media (min-width: 860px) {
+    .about__block {
+      grid-template-columns: 1fr 1fr;
+      gap: 3.5rem;
+      align-items: start;
+    }
+  }
+</style>

@@ -1,0 +1,88 @@
+---
+import event from '../data/event.json';
+
+const isPlaceholder = event.registerEmbedUrl.includes('REPLACE_WITH');
+const showEmbed = event.showRegisterEmbed && !isPlaceholder;
+---
+
+<section class="section section--dark register" id="register">
+  <div class="shell">
+    <p class="eyebrow">Register</p>
+    <h2>Save your seat</h2>
+    <p class="register__intro lead">
+      Free, online, and open to everyone. Register once and we'll send you the
+      joining link, the recording, and the invite to the 21 October roundtable.
+    </p>
+
+    {
+      showEmbed ? (
+        <div class="register__embed">
+          <iframe
+            src={event.registerEmbedUrl}
+            title="Registration form"
+            width="100%"
+            height="900"
+            frameborder="0"
+            marginheight="0"
+            marginwidth="0"
+            loading="lazy"
+          >
+            Loading the registration form…
+          </iframe>
+        </div>
+      ) : (
+        <div class="register__fallback">
+          <p>
+            {isPlaceholder
+              ? 'The registration form is being set up. Check back shortly.'
+              : 'Registration opens in a new tab.'}
+          </p>
+          {!isPlaceholder && (
+            <a
+              class="btn btn--primary"
+              href={event.registerUrl}
+              target="_blank"
+              rel="noopener"
+            >
+              {event.registerLabel}
+            </a>
+          )}
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .register__intro {
+    max-width: 54ch;
+    margin-top: 1.5rem;
+    color: var(--muted-on-dark);
+  }
+
+  .register__embed {
+    margin-top: clamp(32px, 5vw, 56px);
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .register__embed iframe {
+    display: block;
+    border: 0;
+  }
+
+  .register__fallback {
+    margin-top: clamp(32px, 5vw, 56px);
+    padding: clamp(28px, 5vw, 48px);
+    background: var(--card);
+    border: 1px solid var(--card-line);
+    border-radius: var(--radius-lg);
+    max-width: 52ch;
+  }
+
+  .register__fallback p {
+    margin-bottom: 1.5rem;
+    color: var(--muted-on-dark);
+  }
+</style>
