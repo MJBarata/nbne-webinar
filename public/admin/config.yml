@@ -17,17 +17,32 @@ collections:
         label: Hero
         file: src/data/home-hero.json
         fields:
-          - { name: eyebrow, label: Eyebrow, widget: string }
-          - { name: title, label: Title, widget: string }
+          - { name: title, label: Logo alt text, widget: string, hint: "The hero shows the logo — this is the text screen readers announce" }
           - { name: tagline, label: Tagline, widget: string }
           - { name: primaryCtaLabel, label: Button label, widget: string }
           - { name: primaryCtaHref, label: Button link, widget: string }
+
+      - name: committee
+        label: Women's Committee
+        file: src/data/committee.json
+        fields:
+          - { name: title, label: Title, widget: string }
+          - { name: body, label: Body, widget: string }
+          - name: members
+            label: Members
+            widget: list
+            label_singular: member
+            summary: "{{flag}} {{name}}"
+            fields:
+              - { name: name, label: Name, widget: string }
+              - { name: country, label: Country, widget: string }
+              - { name: flag, label: Flag emoji, widget: string, hint: "e.g. 🇵🇹" }
+              - { name: photo, label: Photo, widget: image, required: false, hint: "Square headshot. Initials show if left empty." }
 
       - name: movement
         label: The movement
         file: src/data/movement.json
         fields:
-          - { name: eyebrow, label: Eyebrow, widget: string }
           - { name: introHeading, label: Heading, widget: string }
           - { name: introBody, label: Intro, widget: text, hint: "Leave a blank line between paragraphs" }
           - { name: quoteHeading, label: "Card 1 — heading", widget: string }
@@ -40,7 +55,6 @@ collections:
         label: Become an ambassador
         file: src/data/ambassador.json
         fields:
-          - { name: eyebrow, label: Eyebrow, widget: string }
           - { name: title, label: Title, widget: string }
           - { name: body, label: Body, widget: text }
           - { name: ctaLabel, label: Button label, widget: string }

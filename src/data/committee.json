@@ -1,0 +1,13 @@
+{
+  "title": "Reach us out",
+  "body": "No excuses. Take part on your own terms.",
+  "members": [
+    { "name": "Maxine Strain", "country": "Ireland", "flag": "🇮🇪", "photo": "" },
+    { "name": "Non Stanford", "country": "United Kingdom", "flag": "🇬🇧", "photo": "" },
+    { "name": "Mafalda J. Barata", "country": "Portugal", "flag": "🇵🇹", "photo": "" },
+    { "name": "Jana Škanderová", "country": "Slovakia", "flag": "🇸🇰", "photo": "" },
+    { "name": "Oliver Laaber", "country": "Austria", "flag": "🇦🇹", "photo": "" },
+    { "name": "Onno Van der Erve", "country": "Netherlands", "flag": "🇳🇱", "photo": "" },
+    { "name": "Fred Arthur Asdal", "country": "Norway", "flag": "🇳🇴", "photo": "" }
+  ]
+}

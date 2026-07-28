@@ -2,7 +2,7 @@
 name: "Debbie Alexander"
 role: "1st Vice President, World Triathlon"
 organisation: "President, Triathlon South Africa"
-photo: ""
+photo: "/img/speakers/debbie-alexander.jpg"
 talkTitle: "Topic to be confirmed"
 order: 1
 published: true

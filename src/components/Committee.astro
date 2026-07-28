@@ -1,0 +1,123 @@
+---
+import committee from '../data/committee.json';
+
+const initials = (name: string) =>
+  name
+    .split(' ')
+    .filter((part) => !part.includes('.'))
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join('');
+---
+
+<section class="section section--blue committee" id="committee">
+  <div class="shell">
+    <div class="committee__intro" data-reveal>
+      <h2>{committee.title}</h2>
+      <p class="committee__body lead">{committee.body}</p>
+    </div>
+
+    <ul class="committee__grid">
+      {
+        committee.members.map((member) => (
+          <li class="member">
+            <span class="member__avatar">
+              {member.photo ? (
+                <img src={member.photo} alt={member.name} loading="lazy" />
+              ) : (
+                <span class="member__initials">{initials(member.name)}</span>
+              )}
+              <span class="member__flag" title={member.country}>
+                {member.flag}
+              </span>
+            </span>
+            <span class="member__name">{member.name}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .committee__body {
+    margin-top: 1rem;
+    max-width: 40ch;
+  }
+
+  .committee__grid {
+    list-style: none;
+    margin: clamp(36px, 5vw, 60px) 0 0;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr;
+  }
+
+  .member {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--white);
+    border-radius: var(--radius-pill);
+    padding: 0.5rem 1.75rem 0.5rem 0.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .member:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+  }
+
+  .member__avatar {
+    position: relative;
+    flex-shrink: 0;
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    overflow: visible;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(150deg, var(--blue), var(--accent));
+  }
+
+  .member__avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .member__initials {
+    font-family: var(--font-ui);
+    font-weight: 700;
+    font-size: 1.35rem;
+    color: var(--white);
+  }
+
+  .member__flag {
+    position: absolute;
+    top: -2px;
+    right: -6px;
+    font-size: 1.25rem;
+    line-height: 1;
+    background: var(--white);
+    border-radius: 50%;
+    padding: 0.15rem 0.2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .member__name {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 1.9vw, 1.45rem);
+    line-height: 1.15;
+    color: var(--ink);
+  }
+
+  @media (min-width: 760px) {
+    .committee__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+  }
+</style>

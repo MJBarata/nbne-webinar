@@ -12,26 +12,47 @@ import event from '../data/event.json';
       <a href="#agenda">Agenda</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <a class="btn btn--primary site-header__cta" href="#register">
+    <a class="btn btn--light site-header__cta" href="#register">
       {event.registerLabel}
     </a>
   </div>
 </header>
 
+<script>
+  const header = document.querySelector('.site-header');
+
+  if (header) {
+    const onScroll = () => {
+      header.classList.toggle('is-scrolled', window.scrollY > 24);
+    };
+
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+</script>
+
 <style>
   .site-header {
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 20;
+    background: transparent;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .site-header.is-scrolled {
     background: var(--blue-deep);
     backdrop-filter: blur(8px);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.28);
   }
 
   .site-header__inner {
     display: flex;
     align-items: center;
     gap: 1.5rem;
-    min-height: 64px;
+    min-height: var(--header-h);
   }
 
   .site-header__logo {
@@ -50,28 +71,22 @@ import event from '../data/event.json';
     margin-left: auto;
     font-family: var(--font-ui);
     font-size: 0.95rem;
-    color: var(--muted-on-dark);
+    color: var(--white);
   }
 
   .site-header__nav a {
     text-decoration: none;
-    transition: color 0.15s ease;
+    opacity: 0.8;
+    transition: opacity 0.15s ease;
   }
 
   .site-header__nav a:hover {
-    color: var(--white);
+    opacity: 1;
   }
 
   .site-header__cta {
     padding: 0.6rem 1.25rem;
     font-size: 0.9rem;
-    background: var(--white);
-    color: var(--blue-deep);
-  }
-
-  .site-header__cta:hover {
-    background: var(--accent);
-    color: var(--blue-deep);
   }
 
   @media (max-width: 780px) {

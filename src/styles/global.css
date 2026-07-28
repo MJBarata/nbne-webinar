@@ -24,9 +24,11 @@
   --radius-lg: 30px;
   --radius-xl: 48px;
   --radius-pill: 999px;
+  --radius-btn: 14px;
 
   --shell: 1120px;
   --gutter: 24px;
+  --header-h: 64px;
 }
 
 *,
@@ -131,10 +133,10 @@ img {
   font-weight: 600;
   font-size: 1rem;
   text-decoration: none;
-  padding: 0.95rem 1.75rem;
-  border-radius: var(--radius-pill);
+  padding: 0.9rem 1.6rem;
+  border-radius: var(--radius-btn);
   border: 1px solid transparent;
-  transition: transform 0.15s ease, background-color 0.15s ease;
+  transition: transform 0.18s ease, background 0.25s ease, box-shadow 0.25s ease;
 }
 
 .btn:hover {
@@ -142,12 +144,28 @@ img {
 }
 
 .btn--primary {
-  background: var(--blue);
+  background: linear-gradient(175deg, #5470ff 0%, #2e4fdb 55%, #1b34b8 100%);
+  border-color: rgba(255, 255, 255, 0.22);
   color: var(--white);
+  box-shadow: 0 6px 18px rgba(27, 52, 184, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.28);
 }
 
 .btn--primary:hover {
-  background: var(--blue-deep);
+  background: linear-gradient(175deg, #6f88ff 0%, #3f5fee 55%, #2540d6 100%);
+  box-shadow: 0 10px 26px rgba(27, 52, 184, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+/* On light backgrounds the white button needs its own gradient treatment */
+.btn--light {
+  background: linear-gradient(175deg, #ffffff 0%, #f0f0f5 100%);
+  color: var(--blue-deep);
+  border-color: rgba(0, 0, 0, 0.06);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+
+.btn--light:hover {
+  background: linear-gradient(175deg, #ffffff 0%, #e4dcff 100%);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.24);
 }
 
 .btn--ghost {
