@@ -4,10 +4,10 @@ import event from '../data/event.json';
 
 <section class="hero">
   <canvas id="hero-gradient" class="hero__gradient" aria-hidden="true"></canvas>
+  <div class="hero__scrim" aria-hidden="true"></div>
   <div class="shell hero__inner">
     <p class="eyebrow">{event.eyebrow}</p>
     <h1 class="hero__title">{event.title}</h1>
-    <p class="hero__tagline">{event.tagline}</p>
 
     <dl class="hero__facts">
       <div>
@@ -186,32 +186,34 @@ import event from '../data/event.json';
     pointer-events: none;
   }
 
+  /* The coral gradient runs very light in places, so darken it behind the copy. */
+  .hero__scrim {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(100deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.28) 45%, rgba(0, 0, 0, 0) 78%),
+      linear-gradient(0deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 40%);
+  }
+
   .hero__inner {
     position: relative;
     z-index: 1;
   }
 
-  /* The gradient runs through pale coral and yellow, so lift the text off it. */
   .hero__inner .eyebrow {
     color: var(--white);
   }
 
   .hero__inner .eyebrow,
   .hero__inner .hero__title,
-  .hero__inner .hero__tagline,
   .hero__inner .hero__facts,
   .hero__inner .hero__countdown {
-    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.32);
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.45);
   }
 
   .hero__title {
     max-width: 15ch;
-    margin-bottom: 0.75rem;
-  }
-
-  .hero__tagline {
-    font-family: var(--font-display);
-    font-size: clamp(1.25rem, 2.6vw, 2rem);
     margin-bottom: 2.5rem;
   }
 
@@ -221,15 +223,16 @@ import event from '../data/event.json';
     gap: 2.5rem;
     margin: 0 0 2.5rem;
     padding-top: 2rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.22);
+    border-top: 1px solid rgba(255, 255, 255, 0.35);
   }
 
   .hero__facts dt {
     font-family: var(--font-ui);
+    font-weight: 600;
     font-size: 0.75rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--muted-on-dark);
+    color: rgba(255, 255, 255, 0.92);
     margin-bottom: 0.35rem;
   }
 
@@ -250,7 +253,7 @@ import event from '../data/event.json';
     margin-top: 1.5rem;
     font-family: var(--font-ui);
     font-size: 0.95rem;
-    color: var(--muted-on-dark);
+    color: rgba(255, 255, 255, 0.88);
   }
 
   .hero__countdown span {

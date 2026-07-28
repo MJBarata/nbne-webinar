@@ -16,14 +16,12 @@ const secondParas = movement.secondBody.split('\n\n');
 
     <div class="movement__cards" data-reveal-group>
       <article class="movement__card">
-        <span class="movement__card-label">The pattern</span>
         <h3>{movement.quoteHeading}</h3>
         <p class="movement__source">{movement.quoteSource}</p>
         <p>{movement.quoteBody}</p>
       </article>
 
       <article class="movement__card">
-        <span class="movement__card-label">What we're changing</span>
         <h3>{movement.secondHeading}</h3>
         {secondParas.map((para) => <p>{para}</p>)}
       </article>
@@ -65,20 +63,6 @@ const secondParas = movement.secondBody.split('\n\n');
     border-radius: var(--radius-lg);
     padding: clamp(28px, 4vw, 40px);
     height: 100%;
-  }
-
-  .movement__card-label {
-    display: inline-block;
-    font-family: var(--font-ui);
-    font-weight: 600;
-    font-size: 0.7rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--blue);
-    background: rgba(46, 79, 219, 0.1);
-    padding: 0.35rem 0.7rem;
-    border-radius: var(--radius-pill);
-    margin-bottom: 1.25rem;
   }
 
   .movement__card h3 {
