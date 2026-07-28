@@ -30,16 +30,6 @@ collections:
           - { name: registerLabel, label: Button label, widget: string }
           - { name: showRegisterEmbed, label: Show the form on the page, widget: boolean }
 
-      - name: about
-        label: About section
-        file: src/data/about.json
-        fields:
-          - { name: heading, label: Heading, widget: string }
-          - { name: body, label: Body, widget: text }
-          - { name: quoteHeading, label: Quote heading, widget: string }
-          - { name: quoteSource, label: Quote source, widget: string }
-          - { name: quoteBody, label: Quote body, widget: text }
-
       - name: roundtable
         label: Roundtable section
         file: src/data/roundtable.json

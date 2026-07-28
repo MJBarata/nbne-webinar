@@ -14,7 +14,6 @@ in. You can change:
 | Section | What you can edit |
 | --- | --- |
 | The event | Title, date, times, the Google Form link, button labels |
-| The event → About | The "no excuses is privilege talking" copy and the quote |
 | The event → Roundtable | The 21 October follow-up block |
 | Speakers | Add/remove speakers, headshots, bios, order |
 | Agenda | The run of day |
@@ -22,15 +21,17 @@ in. You can change:
 
 Every save commits to this repo and Netlify rebuilds the site in about a minute.
 
-## Setting up the registration form
+## The registration form
 
-1. Create the Google Form and open **Send → `<>` (embed)**.
-2. Copy the `src="..."` URL — it ends in `?embedded=true`.
-3. In the CMS, open **The event → Event details** and paste it into
-   *Google Form embed link*. Paste the plain form link into *Google Form link*.
+The form is wired up already. **It currently requires a Google sign-in**, so the
+embed shows a login screen instead of the questions. To fix it, open the form in
+Google Forms → **Settings** → turn off *Restrict to users in your organisation*
+and *Collect email addresses → Verified*. Anyone should be able to respond
+without signing in.
 
-Until that's done the page shows a "form is being set up" message instead of a
-broken frame.
+If you swap the form later: open **Send → `<>` (embed)**, copy the `src="..."`
+URL (it ends in `?embedded=true`), and paste it into *Google Form embed link*
+under **The event → Event details** in the CMS.
 
 ## First-time deploy
 
