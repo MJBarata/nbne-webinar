@@ -1,0 +1,40 @@
+---
+import ambassador from '../data/ambassador.json';
+
+const isPlaceholder = ambassador.ctaUrl.includes('REPLACE_WITH');
+---
+
+<section class="section section--blue ambassador" id="ambassador">
+  <div class="shell ambassador__inner">
+    <p class="eyebrow">{ambassador.eyebrow}</p>
+    <h2>{ambassador.title}</h2>
+    <p class="ambassador__body lead">{ambassador.body}</p>
+
+    {
+      isPlaceholder ? (
+        <p class="ambassador__note">The ambassador application form link is being set up.</p>
+      ) : (
+        <a class="btn btn--primary" href={ambassador.ctaUrl} target="_blank" rel="noopener">
+          {ambassador.ctaLabel}
+        </a>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .ambassador__inner {
+    text-align: center;
+    max-width: 640px;
+    margin-inline: auto;
+  }
+
+  .ambassador__body {
+    margin: 1.5rem 0 2.5rem;
+  }
+
+  .ambassador__note {
+    font-family: var(--font-ui);
+    color: rgba(255, 255, 255, 0.75);
+  }
+</style>

@@ -38,4 +38,12 @@ const agenda = defineCollection({
   }),
 });
 
-export const collections = { speakers, faq, agenda };
+const homeFaq = defineCollection({
+  loader: file('src/content/home-faq/faq.json', { parser: itemsParser }),
+  schema: z.object({
+    question: z.string(),
+    answer: z.string(),
+  }),
+});
+
+export const collections = { speakers, faq, agenda, homeFaq };

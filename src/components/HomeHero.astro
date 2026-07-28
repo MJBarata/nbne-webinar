@@ -1,0 +1,85 @@
+---
+import hero from '../data/home-hero.json';
+---
+
+<section class="hero">
+  <div class="hero__glow" aria-hidden="true"></div>
+  <div class="shell hero__inner">
+    <p class="eyebrow">{hero.eyebrow}</p>
+    <h1 class="hero__title">{hero.title}</h1>
+    <p class="hero__tagline">{hero.tagline}</p>
+
+    <div class="hero__actions">
+      <a class="btn btn--primary hero__cta" href={hero.primaryCtaHref}>
+        {hero.primaryCtaLabel}
+      </a>
+      <a class="btn btn--ghost" href={hero.secondaryCtaHref}>{hero.secondaryCtaLabel}</a>
+    </div>
+
+    <img
+      class="hero__partner"
+      src="/img/europe-triathlon.webp"
+      alt="Europe Triathlon"
+      width="150"
+    />
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    background: var(--blue-deep);
+    color: var(--white);
+    padding-block: clamp(72px, 10vw, 132px);
+  }
+
+  .hero__glow {
+    position: absolute;
+    inset: -30% -10% auto -10%;
+    height: 120%;
+    background:
+      radial-gradient(45% 55% at 18% 12%, var(--cyan) 0%, transparent 62%),
+      radial-gradient(50% 60% at 78% 30%, var(--blue) 0%, transparent 68%),
+      radial-gradient(60% 70% at 50% 90%, var(--navy-glow) 0%, transparent 70%);
+    opacity: 0.85;
+    pointer-events: none;
+  }
+
+  .hero__inner {
+    position: relative;
+  }
+
+  .hero__title {
+    max-width: 15ch;
+    margin-bottom: 0.75rem;
+  }
+
+  .hero__tagline {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2.6vw, 2rem);
+    margin-bottom: 2.5rem;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .hero__cta {
+    background: var(--white);
+    color: var(--blue-deep);
+  }
+
+  .hero__cta:hover {
+    background: var(--cyan-soft);
+    color: var(--blue-deep);
+  }
+
+  .hero__partner {
+    margin-top: 3.5rem;
+    width: 140px;
+    height: auto;
+  }
+</style>

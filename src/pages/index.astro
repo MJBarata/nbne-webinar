@@ -1,24 +1,25 @@
 ---
 import Base from '../layouts/Base.astro';
-import Header from '../components/Header.astro';
-import Hero from '../components/Hero.astro';
-import Speakers from '../components/Speakers.astro';
-import Agenda from '../components/Agenda.astro';
-import Roundtable from '../components/Roundtable.astro';
-import Register from '../components/Register.astro';
-import Faq from '../components/Faq.astro';
-import Footer from '../components/Footer.astro';
+import HomeHeader from '../components/HomeHeader.astro';
+import HomeHero from '../components/HomeHero.astro';
+import Movement from '../components/Movement.astro';
+import FeaturedEvent from '../components/FeaturedEvent.astro';
+import Ambassador from '../components/Ambassador.astro';
+import HomeFaq from '../components/HomeFaq.astro';
+import HomeFooter from '../components/HomeFooter.astro';
 ---
 
-<Base>
-  <Header />
+<Base
+  title="No Barriers, No Excuses"
+  description="A community-driven movement within triathlon working to reduce bias, increase access, and create fairer environments for all athletes."
+>
+  <HomeHeader />
   <main>
-    <Hero />
-    <Speakers />
-    <Agenda />
-    <Roundtable />
-    <Register />
-    <Faq />
+    <HomeHero />
+    <Movement />
+    <FeaturedEvent />
+    <Ambassador />
+    <HomeFaq />
   </main>
-  <Footer />
+  <HomeFooter />
 </Base>

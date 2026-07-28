@@ -1,0 +1,69 @@
+---
+import event from '../data/event.json';
+---
+
+<section class="section section--dark featured-event" id="webinar">
+  <div class="shell">
+    <p class="eyebrow">Featured event</p>
+    <h2>One event, right now</h2>
+
+    <a class="featured-event__card" href="/webinar">
+      <p class="featured-event__eyebrow">{event.eyebrow}</p>
+      <h3 class="featured-event__title">{event.title}</h3>
+      <p class="featured-event__date">{event.dateLabel} · {event.timeLabel}</p>
+      <p class="featured-event__intro">{event.intro}</p>
+      <span class="btn btn--primary featured-event__cta">Learn more &amp; register</span>
+    </a>
+  </div>
+</section>
+
+<style>
+  .featured-event__card {
+    display: block;
+    margin-top: clamp(32px, 5vw, 56px);
+    max-width: 640px;
+    background: var(--card);
+    border: 1px solid var(--card-line);
+    border-radius: var(--radius-lg);
+    padding: clamp(28px, 5vw, 48px);
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+  }
+
+  .featured-event__card:hover {
+    transform: translateY(-2px);
+    border-color: var(--cyan-soft);
+  }
+
+  .featured-event__eyebrow {
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cyan-soft);
+    margin-bottom: 0.75rem;
+  }
+
+  .featured-event__title {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+  }
+
+  .featured-event__date {
+    font-family: var(--font-ui);
+    font-weight: 600;
+    margin: 0.75rem 0 0;
+  }
+
+  .featured-event__intro {
+    margin-top: 1rem;
+    color: var(--muted-on-dark);
+    max-width: 48ch;
+  }
+
+  .featured-event__cta {
+    margin-top: 1.5rem;
+    pointer-events: none;
+  }
+</style>

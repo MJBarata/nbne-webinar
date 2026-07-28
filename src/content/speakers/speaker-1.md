@@ -1,13 +1,16 @@
 ---
-name: "To be announced"
-role: "Speaker — the story"
-organisation: "Europe Triathlon"
+name: "Debbie Alexander"
+role: "1st Vice President, World Triathlon"
+organisation: "President, Triathlon South Africa"
 photo: ""
-talkTitle: "A story of change in the sport"
+talkTitle: "Topic to be confirmed"
 order: 1
 published: true
 ---
 
-Speaker details are coming soon. This slot is for a story that sets the tone: what
-the barrier looked like, what they did about it, and what they'd tell someone
-facing the same thing.
+A clinical psychologist by profession, Debbie has served as President of
+Triathlon South Africa since 2009 and sits as 1st Vice President of World
+Triathlon. She helped bring the first-ever ITU Paratriathlon competition and
+WTS event to the African continent, and was named South Africa's Most
+Influential Woman in Business and Government (Sport category) in 2012.
+Participation and talk details are still to be confirmed.

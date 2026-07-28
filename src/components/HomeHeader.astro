@@ -1,0 +1,85 @@
+---
+---
+
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__logo" href="/">
+      <img src="/img/nbne-logo.png" alt="No Barriers, No Excuses" width="150" />
+    </a>
+    <nav class="site-header__nav">
+      <a href="/webinar">Webinar</a>
+      <a href="#ambassador">Ambassadors</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn btn--primary site-header__cta" href="#ambassador">
+      Become an ambassador
+    </a>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--blue-deep);
+    backdrop-filter: blur(8px);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    min-height: 64px;
+  }
+
+  .site-header__logo {
+    display: block;
+    flex-shrink: 0;
+  }
+
+  .site-header__logo img {
+    width: 120px;
+    height: auto;
+  }
+
+  .site-header__nav {
+    display: flex;
+    gap: 1.5rem;
+    margin-left: auto;
+    font-family: var(--font-ui);
+    font-size: 0.95rem;
+    color: var(--muted-on-dark);
+  }
+
+  .site-header__nav a {
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .site-header__nav a:hover {
+    color: var(--white);
+  }
+
+  .site-header__cta {
+    padding: 0.6rem 1.25rem;
+    font-size: 0.9rem;
+    background: var(--white);
+    color: var(--blue-deep);
+  }
+
+  .site-header__cta:hover {
+    background: var(--cyan-soft);
+    color: var(--blue-deep);
+  }
+
+  @media (max-width: 780px) {
+    .site-header__nav {
+      display: none;
+    }
+
+    .site-header__cta {
+      margin-left: auto;
+    }
+  }
+</style>

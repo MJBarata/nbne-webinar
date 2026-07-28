@@ -1,0 +1,101 @@
+---
+import { getCollection } from 'astro:content';
+
+const faq = await getCollection('homeFaq');
+---
+
+<section class="section faq" id="faq">
+  <div class="shell faq__inner">
+    <div>
+      <h2>FAQ's</h2>
+      <p class="faq__note">
+        Something we haven't covered? Reach out through the ambassador form above
+        and we'll get back to you.
+      </p>
+    </div>
+
+    <div class="faq__list">
+      {
+        faq.map((item, index) => (
+          <details class="faq__item" open={index === 0}>
+            <summary>{item.data.question}</summary>
+            <p>{item.data.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq {
+    background: var(--black);
+    color: var(--white);
+  }
+
+  .faq__inner {
+    display: grid;
+    gap: 2.5rem;
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .faq__note {
+    margin-top: 1.5rem;
+    max-width: 34ch;
+    color: var(--muted-on-dark);
+  }
+
+  .faq__list {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .faq__item {
+    background: var(--card);
+    border: 1px solid var(--card-line);
+    border-radius: var(--radius-md);
+    padding: 1.1rem 1.35rem;
+  }
+
+  .faq__item summary {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+    cursor: pointer;
+    list-style: none;
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 1rem;
+  }
+
+  .faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__item summary::after {
+    content: '+';
+    font-size: 1.25rem;
+    line-height: 1;
+    color: var(--muted-on-dark);
+    flex-shrink: 0;
+  }
+
+  .faq__item[open] summary::after {
+    content: '×';
+  }
+
+  .faq__item p {
+    margin: 1rem 0 0;
+    font-size: 0.95rem;
+    color: var(--muted-on-dark);
+  }
+
+  @media (min-width: 860px) {
+    .faq__inner {
+      grid-template-columns: 1fr 1.15fr;
+      gap: 4rem;
+    }
+  }
+</style>

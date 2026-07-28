@@ -10,8 +10,61 @@ media_folder: public/uploads
 public_folder: /uploads
 
 collections:
+  - name: home
+    label: Home page
+    files:
+      - name: hero
+        label: Hero
+        file: src/data/home-hero.json
+        fields:
+          - { name: eyebrow, label: Eyebrow, widget: string }
+          - { name: title, label: Title, widget: string }
+          - { name: tagline, label: Tagline, widget: string }
+          - { name: primaryCtaLabel, label: Primary button label, widget: string }
+          - { name: primaryCtaHref, label: Primary button link, widget: string }
+          - { name: secondaryCtaLabel, label: Secondary button label, widget: string }
+          - { name: secondaryCtaHref, label: Secondary button link, widget: string }
+
+      - name: movement
+        label: The movement
+        file: src/data/movement.json
+        fields:
+          - { name: introHeading, label: Intro heading, widget: string }
+          - { name: introBody, label: Intro body, widget: text }
+          - { name: quoteHeading, label: Quote heading, widget: string }
+          - { name: quoteSource, label: Quote source, widget: string }
+          - { name: quoteBody, label: Quote body, widget: text }
+          - { name: secondHeading, label: Second heading, widget: string }
+          - { name: secondBody, label: Second body, widget: text }
+
+      - name: ambassador
+        label: Become an ambassador
+        file: src/data/ambassador.json
+        fields:
+          - { name: eyebrow, label: Eyebrow, widget: string }
+          - { name: title, label: Title, widget: string }
+          - { name: body, label: Body, widget: text }
+          - { name: ctaLabel, label: Button label, widget: string }
+          - { name: ctaUrl, label: Google Form link, widget: string }
+
+  - name: home_faq
+    label: Home FAQ
+    files:
+      - name: items
+        label: Questions
+        file: src/content/home-faq/faq.json
+        fields:
+          - name: items
+            label: Questions
+            widget: list
+            label_singular: question
+            summary: "{{question}}"
+            fields:
+              - { name: question, label: Question, widget: string }
+              - { name: answer, label: Answer, widget: text }
+
   - name: event
-    label: The event
+    label: The webinar
     files:
       - name: details
         label: Event details
@@ -41,7 +94,7 @@ collections:
           - { name: note, label: Note, widget: string }
 
   - name: speakers
-    label: Speakers
+    label: Webinar speakers
     folder: src/content/speakers
     create: true
     slug: "{{slug}}"
@@ -58,7 +111,7 @@ collections:
       - { name: body, label: Bio, widget: markdown }
 
   - name: agenda
-    label: Agenda
+    label: Webinar agenda
     files:
       - name: items
         label: Run of day
@@ -75,7 +128,7 @@ collections:
               - { name: description, label: Description, widget: text }
 
   - name: faq
-    label: FAQ
+    label: Webinar FAQ
     files:
       - name: items
         label: Questions

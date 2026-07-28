@@ -1,0 +1,81 @@
+---
+import movement from '../data/movement.json';
+
+const introParas = movement.introBody.split('\n\n');
+const secondParas = movement.secondBody.split('\n\n');
+---
+
+<section class="section movement">
+  <div class="shell movement__intro">
+    <h2>{movement.introHeading}</h2>
+    <div class="movement__copy">
+      {introParas.map((para) => <p>{para}</p>)}
+    </div>
+  </div>
+
+  <div class="shell">
+    <div class="movement__quote">
+      <h3>{movement.quoteHeading}</h3>
+      <p class="movement__quote-source">{movement.quoteSource}</p>
+      <p>{movement.quoteBody}</p>
+    </div>
+  </div>
+
+  <div class="shell movement__second">
+    <h3>{movement.secondHeading}</h3>
+    <div class="movement__copy">
+      {secondParas.map((para) => <p>{para}</p>)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .movement {
+    background: var(--paper);
+  }
+
+  .movement__intro {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+  }
+
+  .movement__copy {
+    max-width: 52ch;
+    color: var(--muted-on-light);
+  }
+
+  .movement__quote {
+    margin-top: clamp(48px, 7vw, 88px);
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: clamp(28px, 5vw, 48px);
+    max-width: 640px;
+  }
+
+  .movement__quote-source {
+    font-family: var(--font-ui);
+    font-size: 0.85rem;
+    color: var(--muted-on-light);
+    margin: 0.5rem 0 1.25rem;
+  }
+
+  .movement__second {
+    margin-top: clamp(48px, 7vw, 88px);
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 780px) {
+    .movement__intro {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+
+    .movement__second {
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+  }
+</style>
