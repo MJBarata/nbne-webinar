@@ -3,7 +3,7 @@ import hero from '../data/home-hero.json';
 ---
 
 <section class="hero">
-  <div class="hero__glow" aria-hidden="true"></div>
+  <canvas id="hero-gradient" class="hero__gradient" aria-hidden="true"></canvas>
   <div class="shell hero__inner">
     <p class="eyebrow">{hero.eyebrow}</p>
     <h1 class="hero__title">{hero.title}</h1>
@@ -25,6 +25,108 @@ import hero from '../data/home-hero.json';
   </div>
 </section>
 
+<script>
+  import { NeatGradient } from '@firecms/neat';
+
+  const canvas = document.getElementById('hero-gradient');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (canvas instanceof HTMLCanvasElement) {
+    new NeatGradient({
+      ref: canvas,
+      colors: [
+        { color: '#274DDA', enabled: true },
+        { color: '#297CFF', enabled: true },
+        { color: '#3DE8FF', enabled: true },
+        { color: '#BE9BFB', enabled: true },
+        { color: '#B6B3FF', enabled: true },
+      ],
+      speed: prefersReducedMotion ? 0 : 2,
+      horizontalPressure: 5,
+      verticalPressure: 6,
+      waveFrequencyX: 2,
+      waveFrequencyY: 3,
+      waveAmplitude: 1,
+      shadows: 6,
+      highlights: 8,
+      colorBrightness: 1,
+      colorSaturation: 7,
+      wireframe: false,
+      colorBlending: 10,
+      backgroundColor: '#000000',
+      backgroundAlpha: 1,
+      grainScale: 3,
+      grainSparsity: 0,
+      grainIntensity: 0.8,
+      grainSpeed: 2.2,
+      resolution: 1.1,
+      yOffset: 0,
+      yOffsetWaveMultiplier: 6.6,
+      yOffsetColorMultiplier: 4,
+      yOffsetFlowMultiplier: 18.1,
+      flowDistortionA: 3.7,
+      flowDistortionB: 1.8,
+      flowScale: 3.4,
+      flowEase: 0.22,
+      flowEnabled: true,
+      enableProceduralTexture: false,
+      transparentTextureVoid: false,
+      textureVoidLikelihood: 0.27,
+      textureVoidWidthMin: 60,
+      textureVoidWidthMax: 420,
+      textureBandDensity: 1.2,
+      textureColorBlending: 0.06,
+      textureSeed: 333,
+      textureEase: 0.25,
+      proceduralBackgroundColor: '#0E0707',
+      textureShapeTriangles: 20,
+      textureShapeCircles: 15,
+      textureShapeBars: 15,
+      textureShapeSquiggles: 10,
+      domainWarpEnabled: false,
+      domainWarpIntensity: 0,
+      domainWarpScale: 3,
+      vignetteIntensity: 0,
+      vignetteRadius: 0.8,
+      fresnelEnabled: false,
+      fresnelPower: 2,
+      fresnelIntensity: 0.5,
+      fresnelColor: '#FFFFFF',
+      iridescenceEnabled: false,
+      iridescenceIntensity: 0.5,
+      iridescenceSpeed: 1,
+      bloomIntensity: 0,
+      bloomThreshold: 0.7,
+      chromaticAberration: 0,
+      shapeType: 'plane',
+      shapeRotationX: 0,
+      shapeRotationY: 0,
+      shapeRotationZ: 0,
+      shapeAutoRotateSpeedX: 0,
+      shapeAutoRotateSpeedY: 0,
+      sphereRadius: 15,
+      torusRadius: 15,
+      torusTube: 5,
+      cylinderRadius: 10,
+      cylinderHeight: 40,
+      planeBend: 0,
+      planeTwist: 0,
+      silhouetteFade: 0.25,
+      cylinderFade: 0.08,
+      ribbonFade: 0.05,
+      flatShading: true,
+      cameraLock: true,
+      cameraX: 0,
+      cameraY: 0,
+      cameraZ: 0,
+      cameraRotationX: 0,
+      cameraRotationY: 0,
+      cameraRotationZ: 0,
+      cameraZoom: 1,
+    });
+  }
+</script>
+
 <style>
   .hero {
     position: relative;
@@ -34,20 +136,17 @@ import hero from '../data/home-hero.json';
     padding-block: clamp(72px, 10vw, 132px);
   }
 
-  .hero__glow {
+  .hero__gradient {
     position: absolute;
-    inset: -30% -10% auto -10%;
-    height: 120%;
-    background:
-      radial-gradient(45% 55% at 18% 12%, var(--cyan) 0%, transparent 62%),
-      radial-gradient(50% 60% at 78% 30%, var(--blue) 0%, transparent 68%),
-      radial-gradient(60% 70% at 50% 90%, var(--navy-glow) 0%, transparent 70%);
-    opacity: 0.85;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
   }
 
   .hero__inner {
     position: relative;
+    z-index: 1;
   }
 
   .hero__title {
