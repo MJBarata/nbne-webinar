@@ -5,26 +5,29 @@ const introParas = movement.introBody.split('\n\n');
 const secondParas = movement.secondBody.split('\n\n');
 ---
 
-<section class="section movement">
-  <div class="shell movement__intro">
-    <h2>{movement.introHeading}</h2>
-    <div class="movement__copy">
-      {introParas.map((para) => <p>{para}</p>)}
-    </div>
-  </div>
-
+<section class="section movement" id="movement">
   <div class="shell">
-    <div class="movement__quote">
-      <h3>{movement.quoteHeading}</h3>
-      <p class="movement__quote-source">{movement.quoteSource}</p>
-      <p>{movement.quoteBody}</p>
+    <div class="movement__statement" data-reveal>
+      <p class="eyebrow">{movement.eyebrow}</p>
+      <h2 class="movement__heading">{movement.introHeading}</h2>
+      <div class="movement__lead">
+        {introParas.map((para) => <p>{para}</p>)}
+      </div>
     </div>
-  </div>
 
-  <div class="shell movement__second">
-    <h3>{movement.secondHeading}</h3>
-    <div class="movement__copy">
-      {secondParas.map((para) => <p>{para}</p>)}
+    <div class="movement__cards" data-reveal-group>
+      <article class="movement__card">
+        <span class="movement__card-label">The pattern</span>
+        <h3>{movement.quoteHeading}</h3>
+        <p class="movement__source">{movement.quoteSource}</p>
+        <p>{movement.quoteBody}</p>
+      </article>
+
+      <article class="movement__card">
+        <span class="movement__card-label">What we're changing</span>
+        <h3>{movement.secondHeading}</h3>
+        {secondParas.map((para) => <p>{para}</p>)}
+      </article>
     </div>
   </div>
 </section>
@@ -34,48 +37,69 @@ const secondParas = movement.secondBody.split('\n\n');
     background: var(--paper);
   }
 
-  .movement__intro {
-    display: grid;
-    gap: 1.5rem;
-    grid-template-columns: 1fr;
+  .movement__statement {
+    max-width: 720px;
   }
 
-  .movement__copy {
-    max-width: 52ch;
+  .movement__heading {
+    max-width: 16ch;
+  }
+
+  .movement__lead {
+    margin-top: 1.75rem;
+    max-width: 56ch;
+    font-family: var(--font-ui);
+    font-size: clamp(1.05rem, 1.6vw, 1.2rem);
     color: var(--muted-on-light);
   }
 
-  .movement__quote {
-    margin-top: clamp(48px, 7vw, 88px);
+  .movement__cards {
+    margin-top: clamp(48px, 7vw, 80px);
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .movement__card {
     background: var(--white);
     border-radius: var(--radius-lg);
-    padding: clamp(28px, 5vw, 48px);
-    max-width: 640px;
+    padding: clamp(28px, 4vw, 40px);
+    height: 100%;
   }
 
-  .movement__quote-source {
+  .movement__card-label {
+    display: inline-block;
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--blue);
+    background: rgba(46, 79, 219, 0.1);
+    padding: 0.35rem 0.7rem;
+    border-radius: var(--radius-pill);
+    margin-bottom: 1.25rem;
+  }
+
+  .movement__card h3 {
+    margin-bottom: 0.75rem;
+  }
+
+  .movement__card p {
+    color: var(--muted-on-light);
+  }
+
+  .movement__source {
     font-family: var(--font-ui);
     font-size: 0.85rem;
-    color: var(--muted-on-light);
-    margin: 0.5rem 0 1.25rem;
+    margin-bottom: 1.25rem;
   }
 
-  .movement__second {
-    margin-top: clamp(48px, 7vw, 88px);
-    display: grid;
-    gap: 1.5rem;
-    grid-template-columns: 1fr;
-  }
-
-  @media (min-width: 780px) {
-    .movement__intro {
+  @media (min-width: 860px) {
+    .movement__cards {
       grid-template-columns: 1fr 1fr;
-      align-items: start;
-    }
-
-    .movement__second {
-      grid-template-columns: 1fr 1fr;
-      align-items: start;
+      gap: 1.5rem;
     }
   }
 </style>

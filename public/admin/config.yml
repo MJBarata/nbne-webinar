@@ -20,22 +20,21 @@ collections:
           - { name: eyebrow, label: Eyebrow, widget: string }
           - { name: title, label: Title, widget: string }
           - { name: tagline, label: Tagline, widget: string }
-          - { name: primaryCtaLabel, label: Primary button label, widget: string }
-          - { name: primaryCtaHref, label: Primary button link, widget: string }
-          - { name: secondaryCtaLabel, label: Secondary button label, widget: string }
-          - { name: secondaryCtaHref, label: Secondary button link, widget: string }
+          - { name: primaryCtaLabel, label: Button label, widget: string }
+          - { name: primaryCtaHref, label: Button link, widget: string }
 
       - name: movement
         label: The movement
         file: src/data/movement.json
         fields:
-          - { name: introHeading, label: Intro heading, widget: string }
-          - { name: introBody, label: Intro body, widget: text }
-          - { name: quoteHeading, label: Quote heading, widget: string }
-          - { name: quoteSource, label: Quote source, widget: string }
-          - { name: quoteBody, label: Quote body, widget: text }
-          - { name: secondHeading, label: Second heading, widget: string }
-          - { name: secondBody, label: Second body, widget: text }
+          - { name: eyebrow, label: Eyebrow, widget: string }
+          - { name: introHeading, label: Heading, widget: string }
+          - { name: introBody, label: Intro, widget: text, hint: "Leave a blank line between paragraphs" }
+          - { name: quoteHeading, label: "Card 1 — heading", widget: string }
+          - { name: quoteSource, label: "Card 1 — source", widget: string }
+          - { name: quoteBody, label: "Card 1 — body", widget: text }
+          - { name: secondHeading, label: "Card 2 — heading", widget: string }
+          - { name: secondBody, label: "Card 2 — body", widget: text, hint: "Leave a blank line between paragraphs" }
 
       - name: ambassador
         label: Become an ambassador

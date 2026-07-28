@@ -7,7 +7,7 @@
       <img src="/img/nbne-logo.png" alt="No Barriers, No Excuses" width="150" />
     </a>
     <nav class="site-header__nav">
-      <a href="/webinar">Webinar</a>
+      <a href="#events">Events</a>
       <a href="#ambassador">Ambassadors</a>
       <a href="#faq">FAQ</a>
     </nav>
@@ -17,6 +17,19 @@
   </div>
 </header>
 
+<script>
+  const header = document.querySelector('.site-header');
+
+  if (header) {
+    const onScroll = () => {
+      header.classList.toggle('is-scrolled', window.scrollY > 24);
+    };
+
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+</script>
+
 <style>
   .site-header {
     position: sticky;
@@ -24,6 +37,11 @@
     z-index: 20;
     background: var(--blue-deep);
     backdrop-filter: blur(8px);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .site-header.is-scrolled {
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.28);
   }
 
   .site-header__inner {
@@ -69,7 +87,7 @@
   }
 
   .site-header__cta:hover {
-    background: var(--cyan-soft);
+    background: var(--accent);
     color: var(--blue-deep);
   }
 

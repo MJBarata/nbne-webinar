@@ -1,69 +1,119 @@
 ---
 import event from '../data/event.json';
+import roundtable from '../data/roundtable.json';
 ---
 
-<section class="section section--dark featured-event" id="webinar">
+<section class="section section--dark events" id="events">
   <div class="shell">
-    <p class="eyebrow">Featured event</p>
-    <h2>One event, right now</h2>
+    <h2 class="eyebrow events__heading" data-reveal>Featured events</h2>
 
-    <a class="featured-event__card" href="/webinar">
-      <p class="featured-event__eyebrow">{event.eyebrow}</p>
-      <h3 class="featured-event__title">{event.title}</h3>
-      <p class="featured-event__date">{event.dateLabel} · {event.timeLabel}</p>
-      <p class="featured-event__intro">{event.intro}</p>
-      <span class="btn btn--primary featured-event__cta">Learn more &amp; register</span>
-    </a>
+    <div class="events__grid" data-reveal-group>
+      <a class="event-card event-card--live" href="/webinar">
+        <p class="event-card__eyebrow">{event.eyebrow}</p>
+        <h3 class="event-card__title">{event.title}</h3>
+        <p class="event-card__date">{event.dateLabel} · {event.timeLabel}</p>
+        <p class="event-card__body">{event.intro}</p>
+        <span class="btn btn--primary event-card__cta">Learn more &amp; register</span>
+      </a>
+
+      <article class="event-card event-card--soon">
+        <p class="event-card__eyebrow">{roundtable.eyebrow}</p>
+        <h3 class="event-card__title">{roundtable.title}</h3>
+        <p class="event-card__date">{roundtable.dateLabel}</p>
+        <p class="event-card__body">{roundtable.body}</p>
+        <span class="event-card__soon">Coming soon</span>
+      </article>
+    </div>
   </div>
 </section>
 
 <style>
-  .featured-event__card {
-    display: block;
-    margin-top: clamp(32px, 5vw, 56px);
-    max-width: 640px;
+  .events__heading {
+    margin-bottom: clamp(28px, 4vw, 44px);
+  }
+
+  .events__grid {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  .event-card {
+    display: flex;
+    flex-direction: column;
     background: var(--card);
     border: 1px solid var(--card-line);
     border-radius: var(--radius-lg);
-    padding: clamp(28px, 5vw, 48px);
+    padding: clamp(28px, 4vw, 44px);
     text-decoration: none;
     color: inherit;
-    transition: transform 0.15s ease, border-color 0.15s ease;
+    height: 100%;
   }
 
-  .featured-event__card:hover {
-    transform: translateY(-2px);
-    border-color: var(--cyan-soft);
+  .event-card--live {
+    transition: transform 0.2s ease, border-color 0.2s ease;
   }
 
-  .featured-event__eyebrow {
+  .event-card--live:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+  }
+
+  .event-card--soon {
+    opacity: 0.72;
+  }
+
+  .event-card__eyebrow {
     font-family: var(--font-ui);
     font-weight: 600;
     font-size: 0.8rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--cyan-soft);
+    color: var(--accent);
     margin-bottom: 0.75rem;
   }
 
-  .featured-event__title {
-    font-size: clamp(1.5rem, 3vw, 2rem);
+  .event-card__title {
+    font-size: clamp(1.4rem, 2.4vw, 1.85rem);
   }
 
-  .featured-event__date {
+  .event-card__date {
     font-family: var(--font-ui);
     font-weight: 600;
     margin: 0.75rem 0 0;
   }
 
-  .featured-event__intro {
+  .event-card__body {
     margin-top: 1rem;
+    margin-bottom: 1.75rem;
     color: var(--muted-on-dark);
-    max-width: 48ch;
   }
 
-  .featured-event__cta {
-    margin-top: 1.5rem;
+  .event-card__cta {
+    margin-top: auto;
+    align-self: flex-start;
     pointer-events: none;
+  }
+
+  .event-card__soon {
+    margin-top: auto;
+    align-self: flex-start;
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--muted-on-dark);
+    border: 1px dashed var(--card-line);
+    border-radius: var(--radius-pill);
+    padding: 0.7rem 1.4rem;
+  }
+
+  @media (min-width: 860px) {
+    .events__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
   }
 </style>

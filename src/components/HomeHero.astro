@@ -4,7 +4,7 @@ import hero from '../data/home-hero.json';
 
 <section class="hero">
   <canvas id="hero-gradient" class="hero__gradient" aria-hidden="true"></canvas>
-  <div class="shell hero__inner">
+  <div class="shell hero__inner" data-reveal-group>
     <p class="eyebrow">{hero.eyebrow}</p>
     <h1 class="hero__title">{hero.title}</h1>
     <p class="hero__tagline">{hero.tagline}</p>
@@ -13,7 +13,6 @@ import hero from '../data/home-hero.json';
       <a class="btn btn--primary hero__cta" href={hero.primaryCtaHref}>
         {hero.primaryCtaLabel}
       </a>
-      <a class="btn btn--ghost" href={hero.secondaryCtaHref}>{hero.secondaryCtaLabel}</a>
     </div>
 
     <img
@@ -149,6 +148,18 @@ import hero from '../data/home-hero.json';
     z-index: 1;
   }
 
+  /* The gradient shifts through light tints, so the accent tone loses contrast.
+     Keep the eyebrow white here instead. */
+  .hero__inner .eyebrow {
+    color: var(--white);
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.25);
+  }
+
+  .hero__inner .hero__title,
+  .hero__inner .hero__tagline {
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.18);
+  }
+
   .hero__title {
     max-width: 15ch;
     margin-bottom: 0.75rem;
@@ -172,7 +183,7 @@ import hero from '../data/home-hero.json';
   }
 
   .hero__cta:hover {
-    background: var(--cyan-soft);
+    background: var(--accent);
     color: var(--blue-deep);
   }
 

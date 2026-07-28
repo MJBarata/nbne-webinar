@@ -4,7 +4,7 @@
   --navy: #0a143d;
   --navy-glow: #000e4a;
   --cyan: #00c3ff;
-  --cyan-soft: #80ddff;
+  --accent: #ce98ff;
   --black: #000000;
   --ink: #18181a;
   --card: #272733;
@@ -113,7 +113,7 @@ img {
 .section--dark .eyebrow,
 .section--blue .eyebrow,
 .hero .eyebrow {
-  color: var(--cyan-soft);
+  color: var(--accent);
 }
 
 .lead {
@@ -170,6 +170,46 @@ img {
   color: var(--white);
 }
 
+/* Scroll reveal — elements start hidden, the observer adds .is-visible */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Stagger children of a revealed group */
+[data-reveal-group] > * {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-reveal-group].is-visible > * {
+  opacity: 1;
+  transform: none;
+}
+
+[data-reveal-group].is-visible > *:nth-child(2) {
+  transition-delay: 0.1s;
+}
+
+[data-reveal-group].is-visible > *:nth-child(3) {
+  transition-delay: 0.2s;
+}
+
+[data-reveal-group].is-visible > *:nth-child(4) {
+  transition-delay: 0.3s;
+}
+
+[data-reveal-group].is-visible > *:nth-child(5) {
+  transition-delay: 0.4s;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -177,5 +217,12 @@ img {
 
   .btn:hover {
     transform: none;
+  }
+
+  [data-reveal],
+  [data-reveal-group] > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }

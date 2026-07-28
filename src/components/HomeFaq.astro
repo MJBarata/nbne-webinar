@@ -14,7 +14,7 @@ const faq = await getCollection('homeFaq');
       </p>
     </div>
 
-    <div class="faq__list">
+    <div class="faq__list" data-reveal>
       {
         faq.map((item, index) => (
           <details class="faq__item" open={index === 0}>
