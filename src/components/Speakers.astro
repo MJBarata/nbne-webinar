@@ -26,8 +26,8 @@ const speakers = await Promise.all(
 
     <div class="speakers__lanes">
       {
-        speakers.map(({ data, number, slot, Bio }, index) => (
-          <details class="lane" name="speakers" open={index === 0}>
+        speakers.map(({ data, number, slot, Bio }) => (
+          <details class="lane" name="speakers">
             <summary class="lane__row">
               <span class="lane__number">{number}</span>
               <span class="lane__titles">
