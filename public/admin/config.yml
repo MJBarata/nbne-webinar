@@ -88,6 +88,9 @@ collections:
           - { name: date, label: Date and time (for the countdown), widget: datetime }
           - { name: dateLabel, label: Date shown on the page, widget: string }
           - { name: timeLabel, label: Time shown on the page, widget: string }
+          - { name: shortDate, label: Short date (Dates section), widget: string }
+          - { name: timeRange, label: Time range (Dates section), widget: string }
+          - { name: datesBlurb, label: Webinar card text (Dates section), widget: text }
           - { name: format, label: Format, widget: string }
           - { name: intro, label: Intro, widget: text }
           - { name: registerUrl, label: Google Form link, widget: string }
@@ -102,6 +105,8 @@ collections:
           - { name: eyebrow, label: Eyebrow, widget: string }
           - { name: title, label: Title, widget: string }
           - { name: dateLabel, label: Date, widget: string }
+          - { name: shortDate, label: Short date (Dates section), widget: string }
+          - { name: time, label: Time (Dates section), widget: string }
           - { name: body, label: Body, widget: text }
           - { name: note, label: Note, widget: string }
 

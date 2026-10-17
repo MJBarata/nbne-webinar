@@ -1,0 +1,75 @@
+---
+import event from '../data/event.json';
+import roundtable from '../data/roundtable.json';
+
+const time = event.timeLabel.split('·')[0].trim();
+const items = [
+  event.dateLabel,
+  time,
+  'Online',
+  'Free',
+  'An equal start for all',
+  `Roundtable ${roundtable.shortDate.replace(/^\w+\s/, '')}`,
+];
+---
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    {
+      [0, 1].map(() => (
+        <span class="marquee__run">
+          {items.map((item) => (
+            <>
+              <span>{item}</span>
+              <span class="marquee__star">✱</span>
+            </>
+          ))}
+        </span>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .marquee {
+    overflow: hidden;
+    background: var(--accent);
+    color: var(--black);
+    border-block: 1px solid var(--black);
+  }
+
+  .marquee__track {
+    display: flex;
+    width: max-content;
+    padding-block: 18px;
+    animation: marquee 32s linear infinite;
+  }
+
+  .marquee__run {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    padding-right: 28px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+
+  .marquee__star {
+    font-size: 0.8em;
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee__track {
+      animation: none;
+    }
+  }
+</style>

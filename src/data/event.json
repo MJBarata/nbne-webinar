@@ -6,9 +6,12 @@
   "dateLabel": "Tuesday 17 November",
   "timeLabel": "13:00 CET · 60 minutes",
   "format": "Online webinar · free to attend",
-  "intro": "Three speakers, giving space and visibility to their stories of change and the invisible barriers they hit.",
+  "intro": "Debbie Alexander, Eleanor Condon and Audrey Livingston on the walls they hit in triathlon and how they got past them. One hour, online and free.",
   "registerUrl": "https://forms.gle/ws2SmJ3dpTAAnLQZ9",
   "registerEmbedUrl": "https://docs.google.com/forms/d/e/1FAIpQLSdUZsyb7SOgr_LyXPTFM6ukFNba5CdKSH87ov1gxIWgTzakzg/viewform?embedded=true",
-  "registerLabel": "Register for free",
-  "showRegisterEmbed": true
+  "registerLabel": "Save a seat",
+  "showRegisterEmbed": true,
+  "shortDate": "Tue 17 Nov",
+  "timeRange": "13:00 to 14:00 CET",
+  "datesBlurb": "Three speakers share their stories. Then some time for questions. Everyone's welcome!"
 }

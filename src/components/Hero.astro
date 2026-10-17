@@ -1,68 +1,112 @@
 ---
+import { getCollection } from 'astro:content';
 import event from '../data/event.json';
+
+const speakers = (await getCollection('speakers'))
+  .filter((entry) => entry.data.published)
+  .sort((a, b) => a.data.order - b.data.order)
+  .map((entry) => entry.data);
+
+const names = speakers.map((s) => s.name);
+const withLine =
+  names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names.at(-1)}` : names.join('');
 ---
 
-<section class="hero">
+<section class="hero" id="top">
   <canvas id="hero-gradient" class="hero__gradient" aria-hidden="true"></canvas>
   <div class="hero__scrim" aria-hidden="true"></div>
+
   <div class="shell hero__inner">
-    <p class="eyebrow">{event.eyebrow}</p>
     <h1 class="hero__title">{event.title}</h1>
 
-    <dl class="hero__facts">
-      <div>
-        <dt>Date</dt>
-        <dd>{event.dateLabel}</dd>
-      </div>
-      <div>
-        <dt>Time</dt>
-        <dd>{event.timeLabel}</dd>
-      </div>
-      <div>
-        <dt>Where</dt>
-        <dd>{event.format}</dd>
-      </div>
-    </dl>
+    <div class="hero__grid">
+      <div class="hero__main">
+        <div class="hero__actions">
+          <a class="btn btn--light hero__cta" href="#register">{event.registerLabel}, it's free</a>
+          <a class="btn btn--ghost hero__cta" href="#agenda">See the hour</a>
+        </div>
 
-    <div class="hero__actions">
-      <a class="btn btn--light hero__cta" href="#register">{event.registerLabel}</a>
-      <a class="btn btn--ghost" href="#agenda">See the agenda</a>
+        {
+          speakers.length > 0 && (
+            <div class="hero__with">
+              <div class="hero__faces" aria-hidden="true">
+                {speakers.map((s) =>
+                  s.photo ? <img src={s.photo} alt="" width="48" height="48" /> : null
+                )}
+              </div>
+              <p>With {withLine}</p>
+            </div>
+          )
+        }
+
+        <img
+          class="hero__partner"
+          src="/img/europe-triathlon.webp"
+          alt="Europe Triathlon"
+          width="150"
+        />
+      </div>
+
+      <div class="hero__clock" data-countdown={event.date}>
+        <p class="hero__clock-when">
+          <span class="hero__clock-dot" aria-hidden="true"></span>
+          {event.shortDate} · {event.timeLabel.split('·')[0].trim()}
+        </p>
+        <div class="hero__clock-digits" role="timer" aria-label="Time until the webinar starts">
+          <div><span data-unit="d">--</span><small>days</small></div>
+          <span class="hero__clock-sep" aria-hidden="true">:</span>
+          <div><span data-unit="h">--</span><small>hours</small></div>
+          <span class="hero__clock-sep" aria-hidden="true">:</span>
+          <div><span data-unit="m">--</span><small>min</small></div>
+          <span class="hero__clock-sep" aria-hidden="true">:</span>
+          <div class="hero__clock-sec"><span data-unit="s">--</span><small>sec</small></div>
+        </div>
+        <p class="hero__clock-live" hidden>We're live. Grab the link from your email.</p>
+      </div>
     </div>
-
-    <div class="hero__countdown" data-countdown={event.date} hidden>
-      <span data-countdown-value></span> until we go live
-    </div>
-
-    <img
-      class="hero__partner"
-      src="/img/europe-triathlon.webp"
-      alt="Europe Triathlon"
-      width="150"
-    />
   </div>
 </section>
 
 <script>
-  const el = document.querySelector('[data-countdown]');
-  const out = document.querySelector('[data-countdown-value]');
-
-  if (el instanceof HTMLElement && out) {
-    const target = new Date(el.dataset.countdown ?? '').getTime();
-
+  const clock = document.querySelector('[data-countdown]');
+  if (clock instanceof HTMLElement) {
+    const target = new Date(clock.dataset.countdown ?? '').getTime();
+    const units = {
+      d: clock.querySelector('[data-unit="d"]'),
+      h: clock.querySelector('[data-unit="h"]'),
+      m: clock.querySelector('[data-unit="m"]'),
+      s: clock.querySelector('[data-unit="s"]'),
+    };
+    const live = clock.querySelector('.hero__clock-live');
+    const digits = clock.querySelector('.hero__clock-digits');
+    const pad = (n: number) => String(n).padStart(2, '0');
+    let timer = 0;
     const render = () => {
-      const diff = target - Date.now();
-      if (Number.isNaN(target) || diff <= 0) {
-        el.hidden = true;
+      let diff = target - Date.now();
+      if (Number.isNaN(target)) {
+        clock.hidden = true;
         return;
       }
-      const days = Math.floor(diff / 86400000);
-      const hours = Math.floor((diff % 86400000) / 3600000);
-      out.textContent = days > 0 ? `${days} days, ${hours} hours` : `${hours} hours`;
-      el.hidden = false;
+      if (diff <= 0) {
+        if (digits instanceof HTMLElement) digits.hidden = true;
+        if (live instanceof HTMLElement) live.hidden = false;
+        window.clearInterval(timer);
+        return;
+      }
+      const d = Math.floor(diff / 86400000);
+      diff -= d * 86400000;
+      const h = Math.floor(diff / 3600000);
+      diff -= h * 3600000;
+      const m = Math.floor(diff / 60000);
+      diff -= m * 60000;
+      const s = Math.floor(diff / 1000);
+      if (units.d) units.d.textContent = pad(d);
+      if (units.h) units.h.textContent = pad(h);
+      if (units.m) units.m.textContent = pad(m);
+      if (units.s) units.s.textContent = pad(s);
     };
-
     render();
-    setInterval(render, 60000);
+    timer = window.setInterval(render, 1000);
   }
 </script>
 
@@ -175,7 +219,7 @@ import event from '../data/event.json';
     background: var(--blue-deep);
     color: var(--white);
     padding-top: calc(var(--header-h) + clamp(56px, 8vw, 104px));
-    padding-bottom: clamp(72px, 10vw, 132px);
+    padding-bottom: clamp(64px, 8vw, 104px);
   }
 
   .hero__gradient {
@@ -193,7 +237,7 @@ import event from '../data/event.json';
     pointer-events: none;
     background:
       linear-gradient(100deg, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.28) 45%, rgba(0, 0, 0, 0) 78%),
-      linear-gradient(0deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 40%);
+      linear-gradient(0deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0) 45%);
   }
 
   .hero__inner {
@@ -201,46 +245,21 @@ import event from '../data/event.json';
     z-index: 1;
   }
 
-  .hero__inner .eyebrow {
-    color: var(--white);
-  }
-
-  .hero__inner .eyebrow,
-  .hero__inner .hero__title,
-  .hero__inner .hero__facts,
-  .hero__inner .hero__countdown {
-    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.45);
-  }
-
   .hero__title {
-    max-width: 15ch;
-    margin-bottom: 2.5rem;
-  }
-
-  .hero__facts {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2.5rem;
-    margin: 0 0 2.5rem;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.35);
-  }
-
-  .hero__facts dt {
-    font-family: var(--font-ui);
     font-weight: 600;
-    font-size: 0.75rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.92);
-    margin-bottom: 0.35rem;
+    font-size: clamp(3rem, 8.4vw, 7.4rem);
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+    max-width: 12ch;
+    text-shadow: 0 2px 30px rgba(0, 0, 0, 0.3);
   }
 
-  .hero__facts dd {
-    margin: 0;
-    font-family: var(--font-ui);
-    font-weight: 600;
-    font-size: 1.05rem;
+  .hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: 48px;
+    align-items: end;
+    margin-top: clamp(40px, 5vw, 64px);
   }
 
   .hero__actions {
@@ -249,21 +268,149 @@ import event from '../data/event.json';
     gap: 0.75rem;
   }
 
-  .hero__countdown {
-    margin-top: 1.5rem;
-    font-family: var(--font-ui);
-    font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.88);
+  .hero__cta {
+    font-size: 1.05rem;
+    padding: 1rem 1.6rem;
   }
 
-  .hero__countdown span {
-    color: var(--white);
-    font-weight: 600;
+  .hero__with {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 2rem;
+  }
+
+  .hero__faces {
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  .hero__faces img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: 50% 20%;
+    border: 2px solid rgba(0, 0, 0, 0.6);
+  }
+
+  .hero__faces img + img {
+    margin-left: -12px;
+  }
+
+  .hero__with p {
+    margin: 0;
+    font-family: var(--font-ui);
+    font-size: 0.95rem;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.45);
   }
 
   .hero__partner {
-    margin-top: 3.5rem;
+    margin-top: 2.5rem;
     width: 140px;
     height: auto;
+  }
+
+  .hero__clock {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: var(--radius-lg);
+    padding: 24px 28px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .hero__clock-when {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-family: var(--font-ui);
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  .hero__clock-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ff7a9b;
+    animation: hero-blink 1s steps(1) infinite;
+  }
+
+  .hero__clock-digits {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-top: 16px;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hero__clock-digits > div > span {
+    display: block;
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .hero__clock-digits small {
+    display: block;
+    margin-top: 6px;
+    font-family: var(--font-ui);
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .hero__clock-sep {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.15;
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  .hero__clock-sec > span {
+    color: var(--accent);
+  }
+
+  .hero__clock-live {
+    margin: 16px 0 0;
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+
+  @keyframes hero-blink {
+    50% {
+      opacity: 0.25;
+    }
+  }
+
+  @media (max-width: 860px) {
+    .hero__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 420px) {
+    .hero__clock-digits {
+      gap: 8px;
+    }
+
+    .hero__clock-digits > div > span {
+      font-size: 32px;
+    }
+
+    .hero__clock-sep {
+      font-size: 26px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__clock-dot {
+      animation: none;
+    }
   }
 </style>

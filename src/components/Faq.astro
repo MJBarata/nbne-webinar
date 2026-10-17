@@ -7,18 +7,18 @@ const faq = await getCollection('faq');
 <section class="section faq" id="faq">
   <div class="shell faq__inner">
     <div>
-      <h2>FAQ's</h2>
-      <p class="faq__note">
-        Something we haven't covered? Ask when you register and we'll get back to
-        you.
-      </p>
+      <h2 class="faq__heading">Questions</h2>
+      <p class="faq__note">Something missing? Ask in the registration form and we'll answer.</p>
     </div>
 
     <div class="faq__list">
       {
         faq.map((item, index) => (
-          <details class="faq__item" open={index === 0}>
-            <summary>{item.data.question}</summary>
+          <details class="faq__item" name="faq" open={index === 0}>
+            <summary>
+              <span>{item.data.question}</span>
+              <span class="faq__sign" aria-hidden="true" />
+            </summary>
             <p>{item.data.answer}</p>
           </details>
         ))
@@ -29,8 +29,8 @@ const faq = await getCollection('faq');
 
 <style>
   .faq {
-    background: var(--black);
-    color: var(--white);
+    background: var(--paper);
+    color: var(--ink);
   }
 
   .faq__inner {
@@ -40,22 +40,24 @@ const faq = await getCollection('faq');
     align-items: start;
   }
 
-  .faq__note {
-    margin-top: 1.5rem;
-    max-width: 34ch;
-    color: var(--muted-on-dark);
+  .faq__heading {
+    font-weight: 600;
+    letter-spacing: -0.03em;
   }
 
-  .faq__list {
-    display: grid;
-    gap: 0.75rem;
+  .faq__note {
+    margin-top: 1.25rem;
+    max-width: 30ch;
+    font-size: 1.1rem;
+    color: var(--muted-on-light);
   }
 
   .faq__item {
-    background: var(--card);
-    border: 1px solid var(--card-line);
-    border-radius: var(--radius-md);
-    padding: 1.1rem 1.35rem;
+    border-top: 1px solid rgba(24, 24, 26, 0.18);
+  }
+
+  .faq__item:last-child {
+    border-bottom: 1px solid rgba(24, 24, 26, 0.18);
   }
 
   .faq__item summary {
@@ -63,38 +65,62 @@ const faq = await getCollection('faq');
     justify-content: space-between;
     gap: 1rem;
     align-items: center;
+    padding-block: 22px;
     cursor: pointer;
     list-style: none;
-    font-family: var(--font-ui);
-    font-weight: 500;
-    font-size: 1rem;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1rem, 1.6vw, 1.2rem);
+    letter-spacing: -0.01em;
+    transition: color 0.2s ease;
   }
 
   .faq__item summary::-webkit-details-marker {
     display: none;
   }
 
-  .faq__item summary::after {
-    content: '+';
-    font-size: 1.25rem;
-    line-height: 1;
-    color: var(--muted-on-dark);
-    flex-shrink: 0;
+  .faq__item summary:hover {
+    color: var(--blue);
   }
 
-  .faq__item[open] summary::after {
-    content: '×';
+  .faq__sign {
+    position: relative;
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+  }
+
+  .faq__sign::before,
+  .faq__sign::after {
+    content: '';
+    position: absolute;
+    top: 7px;
+    left: 0;
+    width: 16px;
+    height: 2px;
+    background: var(--blue);
+    transition: transform 0.3s ease;
+  }
+
+  .faq__sign::after {
+    transform: rotate(90deg);
+  }
+
+  .faq__item[open] .faq__sign::after {
+    transform: rotate(0deg);
   }
 
   .faq__item p {
-    margin: 1rem 0 0;
-    font-size: 0.95rem;
-    color: var(--muted-on-dark);
+    margin: 0 0 24px;
+    max-width: 52ch;
+    font-size: 1.1rem;
+    line-height: 1.55;
+    color: var(--muted-on-light);
   }
 
   @media (min-width: 860px) {
     .faq__inner {
-      grid-template-columns: 1fr 1.15fr;
+      grid-template-columns: 0.8fr 1.2fr;
       gap: 4rem;
     }
   }

@@ -4,13 +4,13 @@ import event from '../data/event.json';
 
 <footer class="footer">
   <div class="shell">
-    <h2 class="footer__headline">Let's fight for an equal start for all.</h2>
-    <p class="footer__tagline">{event.tagline}</p>
-    <a class="btn btn--primary" href="#register">{event.registerLabel}</a>
-
+    <p class="footer__headline">Let's fight for an equal start for all.</p>
     <div class="footer__meta">
-      <img src="/img/europe-triathlon.webp" alt="Europe Triathlon" width="120" />
-      <p>Europe Triathlon · Women's Committee</p>
+      <div class="footer__brand">
+        <img src="/img/europe-triathlon.webp" alt="Europe Triathlon" width="120" />
+        <p>{event.tagline} Europe Triathlon · Women's Committee</p>
+      </div>
+      <a class="btn btn--light" href="#register">{event.registerLabel}</a>
     </div>
   </div>
 </footer>
@@ -19,36 +19,47 @@ import event from '../data/event.json';
   .footer {
     background: var(--black);
     color: var(--white);
-    padding-block: clamp(64px, 9vw, 120px);
-    text-align: center;
+    padding-block: clamp(80px, 10vw, 128px) 56px;
+    overflow: hidden;
   }
 
   .footer__headline {
-    max-width: 18ch;
-    margin-inline: auto;
-  }
-
-  .footer__tagline {
+    margin: 0;
+    max-width: 14ch;
     font-family: var(--font-display);
-    font-size: clamp(1.5rem, 3.5vw, 2.5rem);
-    margin: 2rem 0;
+    font-weight: 800;
+    font-size: clamp(2.6rem, 8vw, 6.8rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
   }
 
   .footer__meta {
-    margin-top: 4rem;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 24px;
     align-items: center;
-    gap: 1rem;
+    justify-content: space-between;
+    margin-top: clamp(48px, 6vw, 72px);
+    padding-top: 32px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .footer__brand {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .footer__brand img {
+    width: 110px;
+    height: auto;
+  }
+
+  .footer__brand p {
+    margin: 0;
     font-family: var(--font-ui);
     font-size: 0.85rem;
     color: var(--muted-on-dark);
-  }
-
-  .footer__meta img {
-    width: 110px;
-    height: auto;
   }
 </style>

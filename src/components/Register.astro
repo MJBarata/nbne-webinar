@@ -6,13 +6,14 @@ const showEmbed = event.showRegisterEmbed && !isPlaceholder;
 ---
 
 <section class="section section--dark register" id="register">
-  <div class="shell">
-    <p class="eyebrow">Register</p>
-    <h2>Save your seat</h2>
-    <p class="register__intro lead">
-      Free, online, and open to everyone. Register once and we'll send you the
-      joining link, the recording, and the invite to the 24 November roundtable.
-    </p>
+  <div class="shell register__grid">
+    <div class="register__copy">
+      <h2 class="register__heading">Save your seat</h2>
+      <p class="register__intro">
+        Free and online. Register once and you'll get the joining link, the recording
+        afterwards and the roundtable invite.
+      </p>
+    </div>
 
     {
       showEmbed ? (
@@ -54,14 +55,27 @@ const showEmbed = event.showRegisterEmbed && !isPlaceholder;
 </section>
 
 <style>
+  .register__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(32px, 5vw, 64px);
+    align-items: start;
+  }
+
+  .register__heading {
+    font-weight: 600;
+    letter-spacing: -0.03em;
+  }
+
   .register__intro {
-    max-width: 54ch;
+    max-width: 34ch;
     margin-top: 1.5rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
     color: var(--muted-on-dark);
   }
 
   .register__embed {
-    margin-top: clamp(32px, 5vw, 56px);
     background: var(--white);
     border-radius: var(--radius-lg);
     overflow: hidden;
@@ -73,16 +87,20 @@ const showEmbed = event.showRegisterEmbed && !isPlaceholder;
   }
 
   .register__fallback {
-    margin-top: clamp(32px, 5vw, 56px);
     padding: clamp(28px, 5vw, 48px);
     background: var(--card);
     border: 1px solid var(--card-line);
     border-radius: var(--radius-lg);
-    max-width: 52ch;
   }
 
   .register__fallback p {
     margin-bottom: 1.5rem;
     color: var(--muted-on-dark);
+  }
+
+  @media (max-width: 860px) {
+    .register__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
   }
 </style>

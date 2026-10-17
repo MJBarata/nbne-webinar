@@ -2,33 +2,33 @@
   "items": [
     {
       "time": "13:00",
-      "title": "Welcome & intro",
-      "description": "The host opens the session, shares the Miro board and how to take part."
+      "title": "Welcome",
+      "description": "We open the Miro board, say hello, and show you how to join in."
     },
     {
       "time": "13:05",
-      "title": "Speaker 1 — the story",
-      "description": "A story of change in the sport, and what it took."
+      "title": "Debbie Alexander",
+      "description": "Leading a national federation since 2009: the fights worth having, and the ones she would skip next time."
     },
     {
       "time": "13:20",
-      "title": "Speaker 2 — the how",
-      "description": "How a real programme got built inside a federation."
+      "title": "Eleanor Condon",
+      "description": "How Triathlon Ireland got its women in sport work moving, and what kept it going once the launch buzz wore off."
     },
     {
       "time": "13:35",
-      "title": "Speaker 3 — from the ground up",
-      "description": "A developing federation's path, and what made it possible."
+      "title": "Audrey Livingston",
+      "description": "She signed up for one charity race at 42. This year she was Head Referee at WTCS London."
     },
     {
       "time": "13:50",
-      "title": "Q&A",
-      "description": "Your questions to the speakers."
+      "title": "Your questions",
+      "description": "Drop questions in the chat during the talks. We pick them up here."
     },
     {
       "time": "13:58",
       "title": "Close",
-      "description": "Thank yous, the Miro board, and an invite to the 24 November roundtable."
+      "description": "Thank-yous, and how to join the roundtable on 24 November."
     }
   ]
 }

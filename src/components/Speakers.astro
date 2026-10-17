@@ -5,9 +5,16 @@ const entries = (await getCollection('speakers'))
   .filter((entry) => entry.data.published)
   .sort((a, b) => a.data.order - b.data.order);
 
+// Each speaker's slot comes from the agenda item that carries their name.
+const agenda = await getCollection('agenda');
+const slotFor = (name: string) =>
+  agenda.find((item) => item.data.title.trim() === name.trim())?.data.time;
+
 const speakers = await Promise.all(
-  entries.map(async (entry) => ({
+  entries.map(async (entry, index) => ({
     data: entry.data,
+    number: String(index + 1).padStart(2, '0'),
+    slot: slotFor(entry.data.name),
     Bio: (await render(entry)).Content,
   }))
 );
@@ -15,80 +22,182 @@ const speakers = await Promise.all(
 
 <section class="section section--dark speakers" id="speakers">
   <div class="shell">
-    <p class="eyebrow">The line-up</p>
-    <h2>Three stories worth hearing</h2>
-    <p class="speakers__intro lead">
-      Not polished talks. Real experience in their own words: what they ran into,
-      what they did about it, and what they'd tell someone facing the same thing.
-    </p>
+    <h2 class="speakers__heading">The line-up</h2>
 
-    <ul class="speakers__grid">
+    <div class="speakers__lanes">
       {
-        speakers.map(({ data, Bio }) => (
-          <li class="speaker">
-            <div class="speaker__photo">
-              {data.photo ? (
-                <img src={data.photo} alt={data.name} loading="lazy" />
-              ) : (
-                <span class="speaker__placeholder">Coming soon</span>
+        speakers.map(({ data, number, slot, Bio }, index) => (
+          <details class="lane" name="speakers" open={index === 0}>
+            <summary class="lane__row">
+              <span class="lane__number">{number}</span>
+              <span class="lane__titles">
+                <span class="lane__name">{data.name}</span>
+                <span class="lane__role">
+                  {data.role} · {data.organisation}
+                </span>
+              </span>
+              {data.photo && (
+                <img class="lane__thumb" src={data.photo} alt="" width="120" height="120" loading="lazy" />
               )}
+              <span class="lane__toggle" aria-hidden="true" />
+            </summary>
+
+            <div class="lane__body">
+              {data.photo ? (
+                <img class="lane__photo" src={data.photo} alt={data.name} loading="lazy" />
+              ) : (
+                <div class="lane__photo lane__photo--empty">Photo coming soon</div>
+              )}
+              <div>
+                {slot && <p class="lane__slot">Speaks at {slot}</p>}
+                {data.talkTitle && <p class="lane__talk">{data.talkTitle}</p>}
+                <div class="lane__bio">
+                  <Bio />
+                </div>
+              </div>
             </div>
-            <h3 class="speaker__name">{data.name}</h3>
-            <p class="speaker__role">
-              {data.role} · {data.organisation}
-            </p>
-            {data.talkTitle && <p class="speaker__talk">{data.talkTitle}</p>}
-            <div class="speaker__bio">
-              <Bio />
-            </div>
-          </li>
+          </details>
         ))
       }
-    </ul>
+    </div>
   </div>
 </section>
 
 <style>
-  .speakers__intro {
-    max-width: 54ch;
-    margin-top: 1.5rem;
+  .speakers__heading {
+    font-weight: 600;
+    font-size: 2rem;
+    letter-spacing: -0.03em;
+    margin-bottom: clamp(24px, 4vw, 40px);
+  }
+
+  .lane {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  }
+
+  .lane:first-child {
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+  }
+
+  .lane__row {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 72px minmax(0, 1fr) 112px 28px;
+    gap: 24px;
+    align-items: center;
+    padding: 28px 8px;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+  }
+
+  .lane__row::-webkit-details-marker {
+    display: none;
+  }
+
+  .lane__row:hover {
+    background: #15151c;
+  }
+
+  .lane__row:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+  }
+
+  .lane__number {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 1.3rem;
+    color: var(--accent);
+  }
+
+  .lane__name {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.7rem, 4.2vw, 3.5rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    transition: color 0.2s ease;
+  }
+
+  .lane__row:hover .lane__name,
+  .lane[open] .lane__name {
+    color: var(--accent);
+  }
+
+  .lane__role {
+    display: block;
+    margin-top: 10px;
+    font-family: var(--font-ui);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     color: var(--muted-on-dark);
   }
 
-  .speakers__grid {
-    list-style: none;
-    margin: clamp(40px, 6vw, 64px) 0 0;
-    padding: 0;
-    display: grid;
-    gap: 1.25rem;
-    grid-template-columns: 1fr;
-  }
-
-  .speaker {
-    background: var(--card);
-    border: 1px solid var(--card-line);
-    border-radius: var(--radius-lg);
-    padding: 1.5rem;
-  }
-
-  .speaker__photo {
-    aspect-ratio: 4 / 5;
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    background: linear-gradient(140deg, var(--blue-deep), var(--navy));
-    display: grid;
-    place-items: center;
-    margin-bottom: 1.5rem;
-  }
-
-  .speaker__photo img {
-    width: 100%;
-    height: 100%;
+  .lane__thumb {
+    width: 112px;
+    height: 112px;
+    border-radius: 50%;
     object-fit: cover;
     object-position: 50% 20%;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
   }
 
-  .speaker__placeholder {
+  .lane__row:hover .lane__thumb {
+    transform: scale(1.06) rotate(-3deg);
+  }
+
+  .lane[open] .lane__thumb {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+
+  .lane__toggle {
+    position: relative;
+    width: 20px;
+    height: 20px;
+  }
+
+  .lane__toggle::before,
+  .lane__toggle::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 20px;
+    height: 2px;
+    background: var(--white);
+    transition: transform 0.3s ease;
+  }
+
+  .lane__toggle::after {
+    transform: rotate(90deg);
+  }
+
+  .lane[open] .lane__toggle::after {
+    transform: rotate(0deg);
+  }
+
+  .lane__body {
+    display: grid;
+    grid-template-columns: minmax(0, 320px) minmax(0, 1fr);
+    gap: 40px;
+    padding: 4px 8px 48px 104px;
+    animation: lane-in 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .lane__photo {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 50% 20%;
+    border-radius: var(--radius-md);
+  }
+
+  .lane__photo--empty {
+    display: grid;
+    place-items: center;
+    background: linear-gradient(140deg, var(--blue-deep), var(--navy));
     font-family: var(--font-ui);
     font-size: 0.8rem;
     letter-spacing: 0.14em;
@@ -96,33 +205,63 @@ const speakers = await Promise.all(
     color: var(--muted-on-dark);
   }
 
-  .speaker__name {
-    font-size: 1.35rem;
-  }
-
-  .speaker__role {
-    font-family: var(--font-ui);
-    font-size: 0.85rem;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
+  .lane__slot {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.9rem;
     color: var(--accent);
-    margin: 0.6rem 0 0.9rem;
+    margin-bottom: 1rem;
   }
 
-  .speaker__talk {
+  .lane__talk {
     font-family: var(--font-ui);
     font-weight: 600;
-    font-size: 1.05rem;
+    font-size: 1.15rem;
   }
 
-  .speaker__bio {
-    font-size: 0.95rem;
-    color: var(--muted-on-dark);
+  .lane__bio {
+    max-width: 46ch;
+    font-size: 1.2rem;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.88);
   }
 
-  @media (min-width: 780px) {
-    .speakers__grid {
-      grid-template-columns: repeat(3, 1fr);
+  @keyframes lane-in {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+  }
+
+  @media (max-width: 780px) {
+    .lane__row {
+      grid-template-columns: 40px minmax(0, 1fr) 24px;
+      gap: 14px;
+      padding-inline: 0;
+    }
+
+    .lane__thumb {
+      display: none;
+    }
+
+    .lane__body {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 24px;
+      padding: 0 0 40px;
+    }
+
+    .lane__photo {
+      max-width: 320px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lane__body {
+      animation: none;
+    }
+
+    .lane__thumb,
+    .lane__toggle::after {
+      transition: none;
     }
   }
 </style>

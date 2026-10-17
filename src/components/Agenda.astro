@@ -2,75 +2,281 @@
 import { getCollection } from 'astro:content';
 import event from '../data/event.json';
 
-const agenda = await getCollection('agenda');
+const items = (await getCollection('agenda')).map((item) => item.data);
+
+// Block widths come from the gap to the next start time; the last one runs to the end of the hour.
+const toMinutes = (t: string) => {
+  const [h, m] = t.split(':').map(Number);
+  return h * 60 + m;
+};
+const start = items.length ? toMinutes(items[0].time) : 0;
+const end = start + 60;
+const palette = ['#18181a', '#8181ff', '#ff7a9b', '#ffba96', '#ce98ff', '#18181a'];
+
+const blocks = items.map((item, index) => {
+  const from = toMinutes(item.time);
+  const to = index < items.length - 1 ? toMinutes(items[index + 1].time) : end;
+  const color = palette[index % palette.length];
+  return {
+    ...item,
+    minutes: Math.max(to - from, 1),
+    color,
+    dark: color === '#18181a',
+  };
+});
+
+const firstTalk = Math.min(1, blocks.length - 1);
+const fmt = (mins: number) =>
+  `${String(Math.floor(mins / 60)).padStart(2, '0')}:${String(mins % 60).padStart(2, '0')}`;
 ---
 
 <section class="section agenda" id="agenda">
   <div class="shell">
-    <p class="eyebrow">Run of day</p>
-    <h2>{event.dateLabel}</h2>
+    <p class="eyebrow">{event.dateLabel}</p>
+    <h2 class="agenda__heading">Timeline for the day</h2>
 
-    <ol class="agenda__list">
+    <div class="agenda__bar" role="tablist" aria-label="Webinar timeline">
       {
-        agenda.map((item) => (
-          <li class="agenda__item">
-            <span class="agenda__time">{item.data.time}</span>
-            <div class="agenda__detail">
-              <h3 class="agenda__title">{item.data.title}</h3>
-              <p class="agenda__description">{item.data.description}</p>
-            </div>
-          </li>
+        blocks.map((block, index) => (
+          <button
+            type="button"
+            role="tab"
+            class:list={['agenda__block', { 'agenda__block--dark': block.dark, 'agenda__block--short': block.minutes < 10 }]}
+            style={`flex-grow: ${block.minutes}; background: ${block.color};`}
+            id={`agenda-tab-${index}`}
+            aria-controls={`agenda-panel-${index}`}
+            aria-selected={index === firstTalk ? 'true' : 'false'}
+            data-index={index}
+            aria-label={`${block.time} ${block.title}`}
+          >
+            <span class="agenda__block-time">{block.minutes >= 5 ? block.time : ''}</span>
+            <span class="agenda__block-title">{block.minutes >= 5 ? block.title : ''}</span>
+          </button>
         ))
       }
-    </ol>
+    </div>
+    <div class="agenda__scale" aria-hidden="true">
+      <span>{fmt(start)}</span>
+      <span>{fmt(start + 30)}</span>
+      <span>{fmt(end)}</span>
+    </div>
+
+    <div class="agenda__panels">
+      {
+        blocks.map((block, index) => (
+          <div
+            class="agenda__panel"
+            role="tabpanel"
+            id={`agenda-panel-${index}`}
+            aria-labelledby={`agenda-tab-${index}`}
+            data-active={index === firstTalk ? 'true' : 'false'}
+          >
+            <p class="agenda__panel-time">{block.time}</p>
+            <div>
+              <h3 class="agenda__panel-title">{block.title}</h3>
+              <p class="agenda__panel-text">{block.description}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
   </div>
 </section>
 
+<script>
+  const bar = document.querySelector('.agenda__bar');
+  const panels = document.querySelector('.agenda__panels');
+  if (bar && panels) {
+    panels.classList.add('is-enhanced');
+    const tabs = Array.from(bar.querySelectorAll<HTMLButtonElement>('.agenda__block'));
+    const select = (index: number, focus = false) => {
+      tabs.forEach((tab, i) => {
+        const on = i === index;
+        tab.setAttribute('aria-selected', on ? 'true' : 'false');
+        tab.tabIndex = on ? 0 : -1;
+        document
+          .getElementById(`agenda-panel-${i}`)
+          ?.setAttribute('data-active', on ? 'true' : 'false');
+        if (on && focus) tab.focus();
+      });
+    };
+    const current = () => tabs.findIndex((t) => t.getAttribute('aria-selected') === 'true');
+    select(Math.max(current(), 0));
+    tabs.forEach((tab, i) => tab.addEventListener('click', () => select(i)));
+    bar.addEventListener('keydown', (e) => {
+      const key = (e as KeyboardEvent).key;
+      if (key !== 'ArrowRight' && key !== 'ArrowLeft') return;
+      e.preventDefault();
+      const step = key === 'ArrowRight' ? 1 : -1;
+      select((current() + step + tabs.length) % tabs.length, true);
+    });
+  }
+</script>
+
 <style>
   .agenda {
-    background: var(--paper-alt);
+    background: var(--paper);
+    color: var(--ink);
   }
 
-  .agenda__list {
-    list-style: none;
-    margin: clamp(32px, 5vw, 56px) 0 0;
-    padding: 0;
-    max-width: 780px;
+  .agenda__heading {
+    font-weight: 600;
+    letter-spacing: -0.03em;
   }
 
-  .agenda__item {
-    display: grid;
-    grid-template-columns: 76px 1fr;
-    gap: 1.5rem;
-    padding: 1.5rem 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.12);
+  .agenda__bar {
+    display: flex;
+    gap: 6px;
+    height: 120px;
+    margin-top: clamp(36px, 5vw, 56px);
   }
 
-  .agenda__item:last-child {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  .agenda__block {
+    flex-basis: 0;
+    min-width: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 14px;
+    overflow: hidden;
+    border: 0;
+    border-radius: 18px;
+    color: var(--black);
+    text-align: left;
+    cursor: pointer;
+    font: inherit;
+    transition: transform 0.2s ease, filter 0.2s ease, outline-color 0.2s ease;
+    outline: 3px solid transparent;
+    outline-offset: 3px;
   }
 
-  .agenda__time {
+  .agenda__block--dark {
+    color: var(--white);
+  }
+
+  .agenda__block:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.08);
+  }
+
+  .agenda__block[aria-selected='true'] {
+    outline-color: var(--blue);
+  }
+
+  .agenda__block:focus-visible {
+    outline-color: var(--blue-deep);
+  }
+
+  .agenda__block-time {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 700;
+    font-size: 0.8rem;
+  }
+
+  .agenda__block-title {
     font-family: var(--font-ui);
     font-weight: 600;
-    font-size: 1rem;
-    color: var(--blue);
-    padding-top: 0.2rem;
+    font-size: 0.9rem;
+    line-height: 1.2;
   }
 
-  .agenda__title {
-    font-size: 1.2rem;
-  }
-
-  .agenda__description {
-    margin-top: 0.4rem;
+  .agenda__scale {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.8rem;
     color: var(--muted-on-light);
   }
 
-  @media (max-width: 560px) {
-    .agenda__item {
-      grid-template-columns: 1fr;
-      gap: 0.5rem;
+  .agenda__panels {
+    margin-top: 40px;
+  }
+
+  .agenda__panel {
+    display: grid;
+    grid-template-columns: 180px minmax(0, 1fr);
+    gap: 32px;
+    padding-block: 28px;
+    border-top: 1px solid rgba(24, 24, 26, 0.15);
+  }
+
+  .agenda__panels.is-enhanced .agenda__panel[data-active='false'] {
+    display: none;
+  }
+
+  .agenda__panels.is-enhanced .agenda__panel {
+    animation: panel-in 0.35s ease;
+  }
+
+  .agenda__panel-time {
+    margin: 0;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-weight: 700;
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--blue);
+  }
+
+  .agenda__panel-title {
+    font-weight: 600;
+    font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+  }
+
+  .agenda__panel-text {
+    margin-top: 0.8rem;
+    max-width: 52ch;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    color: var(--muted-on-light);
+  }
+
+  @keyframes panel-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+  }
+
+  @media (max-width: 780px) {
+    .agenda__bar {
+      height: 88px;
+      gap: 4px;
+    }
+
+    .agenda__block {
+      padding: 10px 8px;
+      border-radius: 12px;
+    }
+
+    .agenda__block-title {
+      display: none;
+    }
+
+    .agenda__block-time {
+      font-size: 0.7rem;
+    }
+
+    .agenda__block--short .agenda__block-time {
+      display: none;
+    }
+
+    .agenda__panel {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 12px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .agenda__block,
+    .agenda__panels.is-enhanced .agenda__panel {
+      transition: none;
+      animation: none;
+    }
+
+    .agenda__block:hover {
+      transform: none;
     }
   }
 </style>

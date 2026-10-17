@@ -1,0 +1,125 @@
+---
+import event from '../data/event.json';
+import roundtable from '../data/roundtable.json';
+
+// Google Calendar wants UTC; both sessions run an hour.
+const toUtc = (iso: string) => new Date(iso).toISOString().replace(/[-:]|\.\d{3}/g, '');
+const calLink = (title: string, startIso: string) => {
+  const start = new Date(startIso);
+  const end = new Date(start.getTime() + 60 * 60 * 1000);
+  const params = new URLSearchParams({
+    action: 'TEMPLATE',
+    text: title,
+    dates: `${toUtc(start.toISOString())}/${toUtc(end.toISOString())}`,
+    details: 'https://nobarriers-triathlon.netlify.app/webinar/',
+  });
+  return `https://calendar.google.com/calendar/render?${params.toString()}`;
+};
+
+const webinarStart = event.date;
+const roundtableStart = new Date(new Date(event.date).getTime() + 7 * 86400000).toISOString();
+
+const cards = [
+  {
+    label: 'The webinar',
+    date: event.shortDate,
+    time: event.timeRange,
+    body: event.datesBlurb,
+    href: calLink(event.title, webinarStart),
+  },
+  {
+    label: 'The roundtable',
+    date: roundtable.shortDate,
+    time: roundtable.time,
+    body: roundtable.body,
+    href: calLink(roundtable.title, roundtableStart),
+  },
+];
+---
+
+<section class="section section--blue dates" id="dates">
+  <div class="shell">
+    <h2 class="dates__heading">Two dates for your calendar</h2>
+    <div class="dates__grid" data-reveal-group>
+      {
+        cards.map((card) => (
+          <article class="dates__card">
+            <p class="dates__label">{card.label}</p>
+            <p class="dates__date">{card.date}</p>
+            <p class="dates__time">{card.time}</p>
+            <p class="dates__body">{card.body}</p>
+            <a class="btn btn--ghost dates__cal" href={card.href} target="_blank" rel="noopener">
+              Add to calendar
+            </a>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .dates__heading {
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    margin-bottom: clamp(32px, 5vw, 48px);
+  }
+
+  .dates__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .dates__card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: clamp(28px, 3vw, 36px);
+    background: var(--black);
+    border-radius: var(--radius-lg);
+  }
+
+  .dates__label {
+    margin: 0;
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .dates__date {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2rem, 3.4vw, 2.6rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  .dates__time {
+    margin: 0;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 1.1rem;
+  }
+
+  .dates__body {
+    margin: 0;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  .dates__cal {
+    align-self: flex-start;
+    margin-top: auto;
+  }
+
+  @media (max-width: 780px) {
+    .dates__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>
