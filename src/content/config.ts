@@ -15,7 +15,7 @@ const speakers = defineCollection({
     role: z.string(),
     organisation: z.string(),
     photo: z.string().optional(),
-    talkTitle: z.string(),
+    talkTitle: z.string().optional(),
     order: z.number(),
     published: z.boolean().default(true),
   }),

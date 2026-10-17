@@ -5,7 +5,7 @@ The movement's site, run by the Europe Triathlon Women's Committee.
 - `/` — the movement itself: what it's about, one featured event, and how to
   become an ambassador.
 - `/webinar` — the secondary page for the single event currently running,
-  **Stories from Triathlon Leadership** (14 October).
+  **Stories from Triathlon Leadership** (17 November).
 
 Built with [Astro](https://astro.build) (static, no server) and edited through
 [Decap CMS](https://decapcms.org) at `/admin`. Hosted free on Netlify.
@@ -22,7 +22,7 @@ in. You can change:
 | Home page → Become an ambassador | Body copy and the ambassador Google Form link |
 | Home FAQ | Questions and answers shown on the homepage |
 | The webinar | Title, date, times, the Google Form link, button labels |
-| The webinar → Roundtable | The 21 October follow-up block |
+| The webinar → Roundtable | The 24 November follow-up block |
 | Webinar speakers | Add/remove speakers, headshots, bios, order |
 | Webinar agenda | The run of day |
 | Webinar FAQ | Questions and answers shown on `/webinar` |

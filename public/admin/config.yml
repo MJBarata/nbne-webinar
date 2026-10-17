@@ -117,7 +117,7 @@ collections:
       - { name: role, label: Role, widget: string }
       - { name: organisation, label: Federation / organisation, widget: string }
       - { name: photo, label: Headshot, widget: image, required: false }
-      - { name: talkTitle, label: Talk title, widget: string }
+      - { name: talkTitle, label: Talk title (optional), widget: string, required: false }
       - { name: order, label: Order on the page, widget: number, value_type: int, min: 1 }
       - { name: published, label: Show on the site, widget: boolean, default: true }
       - { name: body, label: Bio, widget: markdown }
