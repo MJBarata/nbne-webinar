@@ -91,6 +91,8 @@ collections:
           - { name: shortDate, label: Short date (Dates section), widget: string }
           - { name: timeRange, label: Time range (Dates section), widget: string }
           - { name: datesBlurb, label: Webinar card text (Dates section), widget: text }
+          - { name: miroTitle, label: Miro board title (Dates section), widget: string }
+          - { name: miroBody, label: Miro board text (Dates section), widget: text }
           - { name: format, label: Format, widget: string }
           - { name: intro, label: Intro, widget: text }
           - { name: registerUrl, label: Google Form link, widget: string }
@@ -109,6 +111,8 @@ collections:
           - { name: time, label: Time (Dates section), widget: string }
           - { name: body, label: Body, widget: text }
           - { name: note, label: Note, widget: string }
+          - { name: unlockLabel, label: Locked badge (Dates section), widget: string }
+          - { name: unlockNote, label: How to unlock (Dates section), widget: string }
 
   - name: speakers
     label: Webinar speakers

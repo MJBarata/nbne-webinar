@@ -2,7 +2,8 @@
 import event from '../data/event.json';
 import roundtable from '../data/roundtable.json';
 
-// Google Calendar wants UTC; both sessions run an hour.
+// Google Calendar wants UTC; the webinar runs an hour. The roundtable has no
+// calendar link on purpose: attendees unlock it and get the invite afterwards.
 const toUtc = (iso: string) => new Date(iso).toISOString().replace(/[-:]|\.\d{3}/g, '');
 const calLink = (title: string, startIso: string) => {
   const start = new Date(startIso);
@@ -16,44 +17,42 @@ const calLink = (title: string, startIso: string) => {
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
 };
 
-const webinarStart = event.date;
-const roundtableStart = new Date(new Date(event.date).getTime() + 7 * 86400000).toISOString();
-
-const cards = [
-  {
-    label: 'The webinar',
-    date: event.shortDate,
-    time: event.timeRange,
-    body: event.datesBlurb,
-    href: calLink(event.title, webinarStart),
-  },
-  {
-    label: 'The roundtable',
-    date: roundtable.shortDate,
-    time: roundtable.time,
-    body: roundtable.body,
-    href: calLink(roundtable.title, roundtableStart),
-  },
-];
+const webinarHref = calLink(event.title, event.date);
 ---
 
 <section class="section section--blue dates" id="dates">
   <div class="shell">
-    <h2 class="dates__heading">Two dates for your calendar</h2>
+    <h2 class="dates__heading">One date, and one you unlock</h2>
     <div class="dates__grid" data-reveal-group>
-      {
-        cards.map((card) => (
-          <article class="dates__card">
-            <p class="dates__label">{card.label}</p>
-            <p class="dates__date">{card.date}</p>
-            <p class="dates__time">{card.time}</p>
-            <p class="dates__body">{card.body}</p>
-            <a class="btn btn--ghost dates__cal" href={card.href} target="_blank" rel="noopener">
-              Add to calendar
-            </a>
-          </article>
-        ))
-      }
+      <article class="dates__card">
+        <p class="dates__label">The webinar</p>
+        <p class="dates__date">{event.shortDate}</p>
+        <p class="dates__time">{event.timeRange}</p>
+        <p class="dates__body">{event.datesBlurb}</p>
+        <a class="btn btn--ghost dates__cal" href={webinarHref} target="_blank" rel="noopener">
+          Add to calendar
+        </a>
+      </article>
+
+      <article class="dates__card dates__card--locked">
+        <p class="dates__badge">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+            <rect x="5" y="11" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2" />
+            <path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+          {roundtable.unlockLabel}
+        </p>
+        <p class="dates__label">The roundtable</p>
+        <p class="dates__date">{roundtable.shortDate}</p>
+        <p class="dates__time">{roundtable.time}</p>
+        <p class="dates__body">{roundtable.body}</p>
+        <p class="dates__unlock">{roundtable.unlockNote}</p>
+      </article>
+
+      <aside class="dates__miro">
+        <p class="dates__miro-title">{event.miroTitle}</p>
+        <p class="dates__miro-body">{event.miroBody}</p>
+      </aside>
     </div>
   </div>
 </section>
@@ -117,9 +116,82 @@ const cards = [
     margin-top: auto;
   }
 
+  /* The roundtable reads as the next level: outlined, dimmed, with a lock. */
+  .dates__card--locked {
+    position: relative;
+    background: rgba(0, 0, 0, 0.28);
+    border: 2px dashed rgba(255, 255, 255, 0.4);
+  }
+
+  .dates__card--locked .dates__date,
+  .dates__card--locked .dates__time,
+  .dates__card--locked .dates__body {
+    opacity: 0.6;
+  }
+
+  .dates__badge {
+    position: absolute;
+    top: clamp(20px, 2.4vw, 28px);
+    right: clamp(20px, 2.4vw, 28px);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 6px 12px 6px 10px;
+    border-radius: var(--radius-pill);
+    background: var(--accent);
+    color: var(--ink);
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 0.8rem;
+  }
+
+  .dates__unlock {
+    margin: auto 0 0;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--accent);
+  }
+
+  .dates__miro {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: 12px 40px;
+    align-items: center;
+    padding: clamp(24px, 3vw, 32px) clamp(28px, 3vw, 36px);
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .dates__miro-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.3rem, 2.2vw, 1.7rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .dates__miro-body {
+    margin: 0;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.88);
+  }
+
   @media (max-width: 780px) {
-    .dates__grid {
+    .dates__grid,
+    .dates__miro {
       grid-template-columns: minmax(0, 1fr);
+    }
+
+    .dates__badge {
+      position: static;
+      align-self: flex-start;
     }
   }
 </style>
