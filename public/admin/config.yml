@@ -51,7 +51,7 @@ collections:
           - { name: secondBody, label: "Card 2 — body", widget: text, hint: "Leave a blank line between paragraphs" }
 
       - name: ambassador
-        label: Become an ambassador
+        label: Get involved
         file: src/data/ambassador.json
         fields:
           - { name: title, label: Title, widget: string }

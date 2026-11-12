@@ -4,14 +4,14 @@ import ambassador from '../data/ambassador.json';
 const isPlaceholder = ambassador.ctaUrl.includes('REPLACE_WITH');
 ---
 
-<section class="section section--blue ambassador" id="ambassador">
+<section class="section section--blue ambassador" id="get-involved">
   <div class="shell ambassador__inner" data-reveal>
     <h2>{ambassador.title}</h2>
     <p class="ambassador__body lead">{ambassador.body}</p>
 
     {
       isPlaceholder ? (
-        <p class="ambassador__note">The ambassador application form link is being set up.</p>
+        <p class="ambassador__note">The sign-up form link is being set up.</p>
       ) : (
         <a class="btn btn--primary" href={ambassador.ctaUrl} target="_blank" rel="noopener">
           {ambassador.ctaLabel}

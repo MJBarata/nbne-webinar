@@ -3,7 +3,7 @@
 The movement's site, run by the Europe Triathlon Women's Committee.
 
 - `/` — the movement itself: what it's about, one featured event, and how to
-  become an ambassador.
+  get involved.
 - `/webinar` — the secondary page for the single event currently running,
   **Stories from Triathlon Leadership** (17 November).
 
@@ -19,7 +19,7 @@ in. You can change:
 | --- | --- |
 | Home page → Hero | The homepage headline, tagline, button links |
 | Home page → The movement | The "privilege talking" / "Pale, Male and Stale" copy |
-| Home page → Become an ambassador | Body copy and the ambassador Google Form link |
+| Home page → Get involved | Body copy, button label and the sign-up Google Form link |
 | Home FAQ | Questions and answers shown on the homepage |
 | The webinar | Title, date, times, the Google Form link, button labels |
 | The webinar → Roundtable | The 24 November follow-up block |
@@ -44,12 +44,13 @@ If you swap the form later: open **Send → `<>` (embed)**, copy the `src="..."`
 URL (it ends in `?embedded=true`), and paste it into *Google Form embed link*
 under **The webinar → Event details** in the CMS.
 
-## The ambassador form
+## The Get involved form
 
-The homepage's "Become an ambassador" section needs your ambassador Google
-Form link — until you add one, the page shows "the ambassador application
-form link is being set up" instead of a button. Paste the form's normal
-share link into **Home page → Become an ambassador → Google Form link** in
+The homepage's "Get involved" section links to the sign-up Google Form
+(currently https://forms.gle/1ep5VmoibrijNn5e6). If the link is ever left as a
+`REPLACE_WITH...` placeholder, the page shows "the sign-up form link is being
+set up" instead of a button. To swap it, paste the form's share link into
+**Home page → Get involved → Google Form link** in
 the CMS (`src/data/ambassador.json` if editing by hand).
 
 ## First-time deploy
